@@ -21,24 +21,17 @@ public class WormBody : MonoBehaviour
         _wormMovement = GetComponentInParent<WormMovement>();
 
         //Events
-        _wormMovement.OnMove += WormMovement_OnMove;
-    
+        _wormMovement.OnMove += WormMovement_OnMove;    
 
         //Initialization
         _prevHeadPos = _bodyParts[0].transform.position;
         _prevBodyPos = _bodyParts[1].transform.position;
         _prevTailPos = _bodyParts[2].transform.position;
-
-
-
     }
-
 
     private void OnDestroy()
     {
-        _wormMovement.OnMove -= WormMovement_OnMove;
-
-       
+        _wormMovement.OnMove -= WormMovement_OnMove;       
     }
 
     public void BodyPartGrounded(bool isGrounded)
@@ -48,31 +41,37 @@ public class WormBody : MonoBehaviour
             _bodyPartGroundedCounter++;
             CheckIfAllBodyPartsGrounded();
         }
-        else{
-            
+        else
+        {            
             _bodyPartGroundedCounter--;
             CheckIfAllBodyPartsGrounded();
-
         }
     }
 
     private void CheckIfAllBodyPartsGrounded()
     {
-        if (_bodyPartGroundedCounter == _bodyParts.Length)
+        if (_bodyPartGroundedCounter == 0)
         {
             OnBodyNotGrounded?.Invoke();
         }
     }
 
-    private void WormMovement_OnMove(Vector3 obj)
+    private void WormMovement_OnMove(Vector3 movementVector)
     {
-        _bodyParts[0].transform.position += obj * DISTANCE_BETWEEN_BODY_PARTS;
+        _bodyParts[0].transform.position += movementVector * DISTANCE_BETWEEN_BODY_PARTS;
         _bodyParts[1].transform.position = _prevHeadPos;
         _bodyParts[2].transform.position = _prevBodyPos;
 
         _prevHeadPos = _bodyParts[0].transform.position;
         _prevBodyPos = _bodyParts[1].transform.position;
         _prevTailPos= _bodyParts[2].transform.position;
+    }
+
+    public void UpdateBodyPosDuringFall()
+    {
+        _prevHeadPos = _bodyParts[0].transform.position;
+        _prevBodyPos = _bodyParts[1].transform.position;
+        _prevTailPos = _bodyParts[2].transform.position;
     }
 
     public GameObject GetWormHead()

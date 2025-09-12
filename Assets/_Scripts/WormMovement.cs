@@ -5,16 +5,24 @@ public class WormMovement : MonoBehaviour
 {
     public event Action<Vector3> OnMove;
 
+    [Header("Movement + Falling")]
     [SerializeField] private float _movementSpeed = 1.0f;
+    [SerializeField] private float _fallingSpeed = 0.5f;
+
+    [Header("Collisions")]
     [SerializeField] private LayerMask _obstacleLayerMask;
     [SerializeField] private float _collisionCheckDistance = 0.6f;
     [SerializeField] private Vector2 _collisionBoxSize = new Vector2(0.5f, 0.5f);
 
-    private Vector2 _previousMovementDir = Vector2.right;
-    private WormBody _wormBody;
+    //Move
+    private Vector2 _previousMovementDir = Vector2.right;   
 
-    //private Vector3 _fallMovement = Vector3.down;
-    private bool _isFalling = false;
+    //Fall
+    private Vector3 _fallMovement = Vector3.down;
+    private bool _isFalling = true;
+
+    //System
+    private WormBody _wormBody;
 
 
     private const float OPPOSITE_DOT_PRODUCT = -1;
@@ -29,44 +37,41 @@ public class WormMovement : MonoBehaviour
     private void OnDestroy()
     {
         _wormBody.OnBodyNotGrounded -= WormBody_OnBodyNotGrounded;
-
     }
 
     private void WormBody_OnBodyNotGrounded()
-    {
-        //Debug.LogWarning("NOT GROUNDED");
-        //_isFalling = true;
+    {        
+        _isFalling = true;
     }
 
     private void Update()
     {
-        //if (_isFalling)
-        //{
-        //    //HandleFalling();
-        //}
-       // else
-       // {
+        if (_isFalling)
+        {
+            HandleFalling();
+        }
+        else
+        {
             CheckForInput();
-       // }
+        }
     }
 
-    //private void HandleFalling()
-    //{
-    //    // Двигаем всю группу вниз
-    //    transform.position += _fallMovement * 2f * Time.deltaTime;
+    private void HandleFalling()
+    {
+       
+        transform.position += _fallMovement * _fallingSpeed;
 
-    //    // При падении тоже обновляем позиции частей тела
-    //    //_wormBody.UpdateBodyPositionsDuringFall(_fallMovement * 2f * Time.deltaTime);
+       
+        _wormBody.UpdateBodyPosDuringFall();
 
-    //    // Проверяем, не остановилось ли падение
-    //    if (_wormBody.GetBodyParts()[0].GetGrounded() ||
-    //        _wormBody.GetBodyParts()[1].GetGrounded() ||
-    //        _wormBody.GetBodyParts()[2].GetGrounded())
-    //    {
-    //        _isFalling = false;
-    //        //_shouldMove = false;
-    //    }
-    //}
+        
+        if (_wormBody.GetBodyParts()[0].GetGrounded() ||
+            _wormBody.GetBodyParts()[1].GetGrounded() ||
+            _wormBody.GetBodyParts()[2].GetGrounded())
+        {
+            _isFalling = false;           
+        }
+    }
 
 
     private void CheckForInput()
@@ -101,17 +106,15 @@ public class WormMovement : MonoBehaviour
     {
         if (Vector2.Dot(moveDir, _previousMovementDir) != OPPOSITE_DOT_PRODUCT)
         {
-            transform.position += moveDir * _movementSpeed;
+            transform.position += moveDir * _movementSpeed;            
             _previousMovementDir = moveDir;
             OnMove?.Invoke(moveDir);
         }
     }
 
     private bool CanMove(Vector3 moveDir)
-    {
-      
+    {      
         Vector2 checkPosition = _wormBody.GetWormHead().transform.position;
-
    
         RaycastHit2D hit = Physics2D.BoxCast(
             origin: checkPosition,
