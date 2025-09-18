@@ -73,6 +73,16 @@ public class WormBody : MonoBehaviour
         _prevBodyPos = _bodyParts[1].transform.position;
         _prevTailPos = _bodyParts[2].transform.position;
     }
+    public void UndoBodyPos(Vector3[] positions)
+    {
+        _bodyParts[0].transform.position = positions[1];
+        _bodyParts[1].transform.position = positions[2];
+        _bodyParts[2].transform.position = positions[3];
+
+        _prevHeadPos = _bodyParts[0].transform.position;
+        _prevBodyPos = _bodyParts[1].transform.position;
+        _prevTailPos = _bodyParts[2].transform.position;
+    }
 
     public GameObject GetWormHead()
     {

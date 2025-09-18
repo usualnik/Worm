@@ -13,9 +13,10 @@ public class WormBodyPart : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collider2d)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collider2d.CompareTag("Ground"))
+        if (collision.CompareTag("Ground") || collision.CompareTag("Reference")
+            || collision.CompareTag("Object"))
         {
             _isGrounded = true;
             wormBody.BodyPartGrounded(_isGrounded);
@@ -24,7 +25,8 @@ public class WormBodyPart : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Ground"))
+        if (collision.CompareTag("Ground") || collision.CompareTag("Reference")
+            || collision.CompareTag("Object"))
         {
            
             _isGrounded = false;
