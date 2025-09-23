@@ -7,6 +7,7 @@ public class WormMovement : MonoBehaviour
     public event Action<Vector3[]> OnWormPosChanged;
 
     [Header("Movement + Falling")]
+    [SerializeField] private Transform _wormStartPosition;
     [SerializeField] private float _movementSpeed = 1.0f;
     [SerializeField] private float _fallingSpeed = 0.5f;
     [SerializeField] private float _moveCooldownTime = 0.5f;
@@ -30,20 +31,35 @@ public class WormMovement : MonoBehaviour
 
     private const float OPPOSITE_DOT_PRODUCT = -1;
 
+    private void Awake()
+    {
+        transform.position = _wormStartPosition.position;
+    }
+
     private void Start()
     {
         _wormBody = GetComponentInChildren<WormBody>();
         _wormBody.OnBodyNotGrounded += WormBody_OnBodyNotGrounded;
         UndoManager.Instance.OnUndoAction += UndoManager_OnUndoAction;
-    }   
+        WinConditionManager.Instance.OnWin += WinConditionManager_OnWin;
+    }
+
+   
 
     private void OnDestroy()
     {
         _wormBody.OnBodyNotGrounded -= WormBody_OnBodyNotGrounded;
         UndoManager.Instance.OnUndoAction -= UndoManager_OnUndoAction;
+        WinConditionManager.Instance.OnWin -= WinConditionManager_OnWin;
+
     }
 
-   
+    private void WinConditionManager_OnWin()
+    {
+        transform.position = _wormStartPosition.position;
+    }
+
+
 
     private void UndoManager_OnUndoAction(DoAction action)
     {

@@ -30,9 +30,10 @@ public class WinConditionManager : MonoBehaviour
         {
             _tileDestroyer.OnTileDestroyed += TileDestroyer_OnTileDestroyed;
         }
-               
-        CompareTilemapShapes();
-    }
+
+        LevelManager.Instance.OnLevelChanged += LevelManager_OnLevelChanged;
+        //CompareTilemapShapes();
+    }  
 
     private void OnDestroy()
     {
@@ -40,6 +41,15 @@ public class WinConditionManager : MonoBehaviour
         {
             _tileDestroyer.OnTileDestroyed -= TileDestroyer_OnTileDestroyed;
         }
+
+        LevelManager.Instance.OnLevelChanged -= LevelManager_OnLevelChanged;
+
+    }
+
+    private void LevelManager_OnLevelChanged(Tilemap newObjectTilemap, Tilemap newReferenceTileMap)
+    {
+        _objectTileMap = newObjectTilemap;
+        _refTileMap = newReferenceTileMap;
     }
 
     private void TileDestroyer_OnTileDestroyed(Vector3Int pos)

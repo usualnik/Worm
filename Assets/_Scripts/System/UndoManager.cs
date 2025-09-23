@@ -54,12 +54,12 @@ public class UndoManager : MonoBehaviour
 
     private void Start()
     {
-        _wormMovement.OnWormPosChanged += WormMovement_OnWormPosChanged;
+        //_wormMovement.OnWormPosChanged += WormMovement_OnWormPosChanged;
         _destroyTile.OnTileDestroyed += DestroyTile_OnTileDestroyed;
     }
     private void OnDestroy()
     {
-        _wormMovement.OnWormPosChanged -= WormMovement_OnWormPosChanged;
+       // _wormMovement.OnWormPosChanged -= WormMovement_OnWormPosChanged;
         _destroyTile.OnTileDestroyed -= DestroyTile_OnTileDestroyed;
     }
 
@@ -82,7 +82,7 @@ public class UndoManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             PopActionFromStack();
             //Add cooldown?

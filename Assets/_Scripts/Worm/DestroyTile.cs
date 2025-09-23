@@ -5,6 +5,7 @@ using UnityEngine.Tilemaps;
 public class DestroyTile : MonoBehaviour
 {
     public event Action<Vector3Int> OnTileDestroyed;
+    public event Action OnDeathTileDestroyed;
 
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -23,5 +24,23 @@ public class DestroyTile : MonoBehaviour
                 OnTileDestroyed?.Invoke(cellPosition);
             }
         }
+
+        if (collision.CompareTag("PlayerLoseTile"))
+        {
+            Tilemap tilemap = collision.GetComponent<Tilemap>();
+
+            if (tilemap != null)
+            {
+                Vector3 contactPoint = collision.ClosestPoint(transform.position);
+                Vector3Int cellPosition = tilemap.WorldToCell(contactPoint);
+
+                // Удаляем тайл
+                tilemap.SetTile(cellPosition, null);
+
+                OnDeathTileDestroyed?.Invoke();
+               
+            }
+        }
+
     }
 }
