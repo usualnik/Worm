@@ -108,18 +108,29 @@ public class WormMovement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.W))
         {
+            AudioManager.Instance.Play("Input");
             TryMove(Vector2.up);
         }
         else if (Input.GetKey(KeyCode.A))
         {
+            AudioManager.Instance.Play("Input");
+
+            _wormBody.FlipHeadSprite(true);
+
             TryMove(Vector2.left);
         }
         else if (Input.GetKey(KeyCode.S))
         {
+            AudioManager.Instance.Play("Input");
+
             TryMove(Vector2.down);
         }
         else if (Input.GetKey(KeyCode.D))
         {
+            AudioManager.Instance.Play("Input");
+
+            _wormBody.FlipHeadSprite(false);
+
             TryMove(Vector2.right);
         }
     }
@@ -130,7 +141,8 @@ public class WormMovement : MonoBehaviour
         {
             Move(moveDir);
             _canMove = false;
-        }
+        }              
+
     }
 
     private void HandleFalling()

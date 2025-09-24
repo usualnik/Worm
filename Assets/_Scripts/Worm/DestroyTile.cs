@@ -18,6 +18,7 @@ public class DestroyTile : MonoBehaviour
                 Vector3 contactPoint = collision.ClosestPoint(transform.position);
                 Vector3Int cellPosition = tilemap.WorldToCell(contactPoint);
 
+                AudioManager.Instance.Play("DestroyTile");
                 // Удаляем тайл
                 tilemap.SetTile(cellPosition, null);                
 
@@ -33,6 +34,8 @@ public class DestroyTile : MonoBehaviour
             {
                 Vector3 contactPoint = collision.ClosestPoint(transform.position);
                 Vector3Int cellPosition = tilemap.WorldToCell(contactPoint);
+
+                AudioManager.Instance.Play("DestroyTile");
 
                 // Удаляем тайл
                 tilemap.SetTile(cellPosition, null);

@@ -56,12 +56,22 @@ public class UndoManager : MonoBehaviour
     {
         //_wormMovement.OnWormPosChanged += WormMovement_OnWormPosChanged;
         _destroyTile.OnTileDestroyed += DestroyTile_OnTileDestroyed;
-    }
+        LevelManager.Instance.OnLevelChanged += LevelManager_OnLevelChanged;
+    }   
+
     private void OnDestroy()
     {
        // _wormMovement.OnWormPosChanged -= WormMovement_OnWormPosChanged;
         _destroyTile.OnTileDestroyed -= DestroyTile_OnTileDestroyed;
+        LevelManager.Instance.OnLevelChanged -= LevelManager_OnLevelChanged;
+
     }
+
+    private void LevelManager_OnLevelChanged(UnityEngine.Tilemaps.Tilemap arg1, UnityEngine.Tilemaps.Tilemap arg2)
+    {
+        ClearStack();
+    }
+
 
     private void DestroyTile_OnTileDestroyed(Vector3Int pos)
     {
@@ -69,11 +79,11 @@ public class UndoManager : MonoBehaviour
         PushActionToStack(action);
     }
 
-    private void WormMovement_OnWormPosChanged(Vector3[] positions)
-    {
-        DoAction action = new DoAction(DoAction.ActionType.WormMove, positions);
-        PushActionToStack(action);
-    }
+    //private void WormMovement_OnWormPosChanged(Vector3[] positions)
+    //{
+    //    DoAction action = new DoAction(DoAction.ActionType.WormMove, positions);
+    //    PushActionToStack(action);
+    //}
 
     private void PushActionToStack(DoAction action)
     {
@@ -82,8 +92,9 @@ public class UndoManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKey(KeyCode.Z))
         {
+            
             PopActionFromStack();
             //Add cooldown?
         }
@@ -93,6 +104,7 @@ public class UndoManager : MonoBehaviour
     {
         if (_actionStack.Count > 1)
         {
+            AudioManager.Instance.Play("Rewind");
             DoAction action = _actionStack.Pop();
             OnUndoAction?.Invoke(action);
         }else if (_actionStack.Count == 1)
@@ -102,6 +114,11 @@ public class UndoManager : MonoBehaviour
         }
         else
             Debug.Log("Nothing to undo, stack is empty");
+    }
+
+    private void ClearStack()
+    {
+        _actionStack.Clear();
     }
 
   

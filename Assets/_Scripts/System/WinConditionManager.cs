@@ -101,7 +101,7 @@ public class WinConditionManager : MonoBehaviour
             }
         }
 
-        Debug.Log("WIN");
+        AudioManager.Instance.Play("Win");
         OnWin?.Invoke();
 
     }

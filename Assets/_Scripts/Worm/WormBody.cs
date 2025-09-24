@@ -21,14 +21,14 @@ public class WormBody : MonoBehaviour
         _wormMovement = GetComponentInParent<WormMovement>();
 
         //Events
-        _wormMovement.OnMove += WormMovement_OnMove;    
+        _wormMovement.OnMove += WormMovement_OnMove;
+        
 
         //Initialization
         _prevHeadPos = _bodyParts[0].transform.position;
         _prevBodyPos = _bodyParts[1].transform.position;
         _prevTailPos = _bodyParts[2].transform.position;
     }
-
     private void OnDestroy()
     {
         _wormMovement.OnMove -= WormMovement_OnMove;       
@@ -66,7 +66,7 @@ public class WormBody : MonoBehaviour
         _prevBodyPos = _bodyParts[1].transform.position;
         _prevTailPos= _bodyParts[2].transform.position;
     }
-
+      
     public void UpdateBodyPosDuringFall()
     {
         _prevHeadPos = _bodyParts[0].transform.position;
@@ -91,5 +91,10 @@ public class WormBody : MonoBehaviour
     public WormBodyPart[] GetBodyParts()
     {
         return _bodyParts;
+    }
+    public void FlipHeadSprite(bool shouldFlip)
+    {
+        var headSpriteRenderer =  _bodyParts[0].GetComponent<SpriteRenderer>();        
+        headSpriteRenderer.flipX = shouldFlip;
     }
 }
