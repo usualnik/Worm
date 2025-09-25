@@ -17,8 +17,6 @@ public class LevelManager : MonoBehaviour
     private Tilemap _currentReferenceTileMap;
 
 
-
-
     private void Awake()
     {
         if (Instance == null)
@@ -26,9 +24,6 @@ public class LevelManager : MonoBehaviour
         else
             Debug.LogError("More than one instance of Level manager");
 
-
-        _levels[_currentLevel].SetActive(true);
-        ChangeCurrentTilemaps();
     }
 
     private void Start()
@@ -39,7 +34,11 @@ public class LevelManager : MonoBehaviour
         {
             levelButton.OnLevelClick += LevelButton_OnLevelClick;
         }
-       
+
+        _currentLevel = PlayerData.Instance.GetCurrentLevel();
+
+        _levels[_currentLevel].SetActive(true);
+        ChangeCurrentTilemaps();
     }
    
     private void OnDestroy()
@@ -52,9 +51,9 @@ public class LevelManager : MonoBehaviour
 
     }
 
-    private void LevelButton_OnLevelClick(int obj)
+    private void LevelButton_OnLevelClick(int levelindex)
     {
-       LoadLevel(obj);
+       LoadLevel(levelindex);
     }
 
     private void WinConditionManager_OnWin()
@@ -66,6 +65,9 @@ public class LevelManager : MonoBehaviour
     {
         _levels[_currentLevel].SetActive(false);
         _currentLevel++;
+
+        PlayerData.Instance.SetCurrentLevel(_currentLevel);
+
         _levels[_currentLevel].SetActive(true);
 
         ChangeCurrentTilemaps();
@@ -86,11 +88,28 @@ public class LevelManager : MonoBehaviour
     {
         _levels[_currentLevel].SetActive(false);
         _currentLevel = levelIndex;
+
+        PlayerData.Instance.SetCurrentLevel(_currentLevel);
+
         _levels[_currentLevel].SetActive(true);
 
         ChangeCurrentTilemaps();
 
         OnLevelChanged?.Invoke(_currentObjectTileMap, _currentReferenceTileMap);
+    }
 
+    public void RestartLevel()
+    {
+        //OnlevelRestart
+
+        _levels[_currentLevel].SetActive(false);       
+
+        PlayerData.Instance.SetCurrentLevel(_currentLevel);
+
+        _levels[_currentLevel].SetActive(true);
+
+        ChangeCurrentTilemaps();
+
+        OnLevelChanged?.Invoke(_currentObjectTileMap, _currentReferenceTileMap);
     }
 }

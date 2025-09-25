@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WormMovement : MonoBehaviour
 {
@@ -16,6 +17,19 @@ public class WormMovement : MonoBehaviour
     [SerializeField] private LayerMask _obstacleLayerMask;
     [SerializeField] private float _collisionCheckDistance = 0.6f;
     [SerializeField] private Vector2 _collisionBoxSize = new Vector2(0.5f, 0.5f);
+
+
+    [Header("Mobile Input Buttons")]
+    [SerializeField] private Button _upInputButton;
+    [SerializeField] private Button _leftInputButton;
+    [SerializeField] private Button _downInputButton;
+    [SerializeField] private Button _rightInputButton;
+
+    private bool _upPressed = false;
+    private bool _leftPressed = false;
+    private bool _downPressed = false;
+    private bool _rightPressed = false;
+
 
     //Move
     private Vector2 _previousMovementDir = Vector2.right;
@@ -42,9 +56,11 @@ public class WormMovement : MonoBehaviour
         _wormBody.OnBodyNotGrounded += WormBody_OnBodyNotGrounded;
         UndoManager.Instance.OnUndoAction += UndoManager_OnUndoAction;
         WinConditionManager.Instance.OnWin += WinConditionManager_OnWin;
-    }
 
-   
+
+        SetupMobileInputButtons();
+
+    }   
 
     private void OnDestroy()
     {
@@ -52,13 +68,22 @@ public class WormMovement : MonoBehaviour
         UndoManager.Instance.OnUndoAction -= UndoManager_OnUndoAction;
         WinConditionManager.Instance.OnWin -= WinConditionManager_OnWin;
 
+
+        if (_upInputButton != null)
+            _upInputButton.onClick.RemoveAllListeners();
+        if (_leftInputButton != null)
+            _leftInputButton.onClick.RemoveAllListeners();
+        if (_downInputButton != null)
+            _downInputButton.onClick.RemoveAllListeners();
+        if (_rightInputButton != null)
+            _rightInputButton.onClick.RemoveAllListeners();
+
     }
 
     private void WinConditionManager_OnWin()
     {
         transform.position = _wormStartPosition.position;
     }
-
 
 
     private void UndoManager_OnUndoAction(DoAction action)
@@ -85,8 +110,120 @@ public class WormMovement : MonoBehaviour
         else
         {
             HandleMovementCooldown();
-            CheckForInput();
+            
+            if (!GameManager.Instance.IsPaused)
+            {               
+                CheckForInput();
+                CheckForMobileInput();
+            }           
         }
+    }
+
+    private void SetupMobileInputButtons()
+    {
+        // Настраиваем обработчики для кнопок
+        if (_upInputButton != null)
+        {
+            _upInputButton.onClick.AddListener(() => HandleButtonInput(Vector2.up));
+
+            // Добавляем обработчики для нажатия и отпускания (для непрерывного движения)
+            var eventTrigger = _upInputButton.gameObject.AddComponent<UnityEngine.EventSystems.EventTrigger>();
+            AddPointerHandlers(eventTrigger,
+                () => _upPressed = true,
+                () => _upPressed = false);
+        }
+
+        if (_leftInputButton != null)
+        {
+            _leftInputButton.onClick.AddListener(() => HandleButtonInput(Vector2.left));
+            var eventTrigger = _leftInputButton.gameObject.AddComponent<UnityEngine.EventSystems.EventTrigger>();
+            AddPointerHandlers(eventTrigger,
+                () => _leftPressed = true,
+                () => _leftPressed = false);
+        }
+
+        if (_downInputButton != null)
+        {
+            _downInputButton.onClick.AddListener(() => HandleButtonInput(Vector2.down));
+            var eventTrigger = _downInputButton.gameObject.AddComponent<UnityEngine.EventSystems.EventTrigger>();
+            AddPointerHandlers(eventTrigger,
+                () => _downPressed = true,
+                () => _downPressed = false);
+        }
+
+        if (_rightInputButton != null)
+        {
+            _rightInputButton.onClick.AddListener(() => HandleButtonInput(Vector2.right));
+            var eventTrigger = _rightInputButton.gameObject.AddComponent<UnityEngine.EventSystems.EventTrigger>();
+            AddPointerHandlers(eventTrigger,
+                () => _rightPressed = true,
+                () => _rightPressed = false);
+        }
+    }
+
+    private void AddPointerHandlers(UnityEngine.EventSystems.EventTrigger eventTrigger,
+       Action onPointerDown, Action onPointerUp)
+    {
+        // Обработчик нажатия
+        var pointerDown = new UnityEngine.EventSystems.EventTrigger.Entry();
+        pointerDown.eventID = UnityEngine.EventSystems.EventTriggerType.PointerDown;
+        pointerDown.callback.AddListener((e) => onPointerDown());
+        eventTrigger.triggers.Add(pointerDown);
+
+        // Обработчик отпускания
+        var pointerUp = new UnityEngine.EventSystems.EventTrigger.Entry();
+        pointerUp.eventID = UnityEngine.EventSystems.EventTriggerType.PointerUp;
+        pointerUp.callback.AddListener((e) => onPointerUp());
+        eventTrigger.triggers.Add(pointerUp);
+
+        // Обработчик выхода за пределы кнопки (на случай, если палец ушел за пределы)
+        var pointerExit = new UnityEngine.EventSystems.EventTrigger.Entry();
+        pointerExit.eventID = UnityEngine.EventSystems.EventTriggerType.PointerExit;
+        pointerExit.callback.AddListener((e) => onPointerUp());
+        eventTrigger.triggers.Add(pointerExit);
+    }
+    private void CheckForMobileInput()
+    {
+        if (!_canMove) return;
+
+        // Проверяем состояние кнопок в порядке приоритета
+        if (_upPressed)
+        {
+            AudioManager.Instance.Play("Input");
+            TryMove(Vector2.up);
+        }
+        else if (_leftPressed)
+        {
+            AudioManager.Instance.Play("Input");
+            _wormBody.FlipHeadSprite(true);
+            TryMove(Vector2.left);
+        }
+        else if (_downPressed)
+        {
+            AudioManager.Instance.Play("Input");
+            TryMove(Vector2.down);
+        }
+        else if (_rightPressed)
+        {
+            AudioManager.Instance.Play("Input");
+            _wormBody.FlipHeadSprite(false);
+            TryMove(Vector2.right);
+        }
+    }
+
+    private void HandleButtonInput(Vector2 direction)
+    {
+        if (!_canMove || _isFalling) return;
+
+        // Для одиночных нажатий (если нужно именно по клику, а не удержанию)
+        AudioManager.Instance.Play("Input");
+
+        if (direction == Vector2.left)
+            _wormBody.FlipHeadSprite(true);
+        else if (direction == Vector2.right)
+            _wormBody.FlipHeadSprite(false);
+
+        TryMove(direction);
     }
 
     private void HandleMovementCooldown()
@@ -101,7 +238,7 @@ public class WormMovement : MonoBehaviour
             }
         }
     }
-
+    
     private void CheckForInput()
     {
         if (!_canMove) return;

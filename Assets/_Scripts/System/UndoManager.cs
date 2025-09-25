@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 public class DoAction
 {
     public enum ActionType
@@ -37,7 +38,9 @@ public class UndoManager : MonoBehaviour
 
     [SerializeField] private WormMovement _wormMovement;
     [SerializeField] private DestroyTile _destroyTile;
+    [SerializeField] private Button _undoButton;
 
+    private bool _undoPressed;
     private Stack<DoAction> _actionStack = new Stack<DoAction>();
 
     private void Awake()
@@ -57,7 +60,13 @@ public class UndoManager : MonoBehaviour
         //_wormMovement.OnWormPosChanged += WormMovement_OnWormPosChanged;
         _destroyTile.OnTileDestroyed += DestroyTile_OnTileDestroyed;
         LevelManager.Instance.OnLevelChanged += LevelManager_OnLevelChanged;
-    }   
+
+        if (_undoButton != null)
+        {
+            _undoButton.onClick.AddListener(() => PopActionFromStack());
+        }
+    }
+
 
     private void OnDestroy()
     {
@@ -92,7 +101,7 @@ public class UndoManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Z) && CanUndo())
         {
             
             PopActionFromStack();
@@ -102,16 +111,19 @@ public class UndoManager : MonoBehaviour
 
     private void PopActionFromStack()
     {
-        if (_actionStack.Count > 1)
+        Debug.Log("Undo pressed");
+
+        if (_actionStack.Count > 0)
         {
             AudioManager.Instance.Play("Rewind");
             DoAction action = _actionStack.Pop();
             OnUndoAction?.Invoke(action);
-        }else if (_actionStack.Count == 1)
-        {
-            DoAction action = _actionStack.Peek();
-            OnUndoAction?.Invoke(action);
         }
+        //}else if (_actionStack.Count == 1)
+        //{
+        //    DoAction action = _actionStack.Peek();
+        //    OnUndoAction?.Invoke(action);
+        //}
         else
             Debug.Log("Nothing to undo, stack is empty");
     }
@@ -120,6 +132,8 @@ public class UndoManager : MonoBehaviour
     {
         _actionStack.Clear();
     }
+
+    private bool CanUndo() => !GameManager.Instance.IsPaused;
 
   
 }
