@@ -22,6 +22,6 @@ public class ButtonSoundUi : MonoBehaviour
 
     private void PlayButtonSound()
     {
-        AudioManager.Instance.Play("ButtonPress");
+        AudioManager.Instance.Play("Input");
     }
 }

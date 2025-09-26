@@ -4,13 +4,18 @@ public class MainMenuCamAnimations : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
 
-   // private int _animationIndex = 0;
-
-    private void Update()
+    private void OnEnable()
     {
-        if (Input.anyKeyDown)
-        {
-            _animator.SetTrigger("ToGameplay");
-        }
+        LevelButton.OnAnyLevelChosen += LevelButton_OnAnyLevelChosen;
+    }
+    private void OnDisable()
+    {
+        LevelButton.OnAnyLevelChosen -= LevelButton_OnAnyLevelChosen;
+
+    }
+
+    private void LevelButton_OnAnyLevelChosen()
+    {
+        _animator.SetTrigger("ToGameplay");
     }
 }

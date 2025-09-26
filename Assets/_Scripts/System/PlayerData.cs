@@ -1,18 +1,18 @@
 using System;
 using UnityEngine;
-//using YG;
+using YG;
 
 [System.Serializable]
 public class Data
 {   
-    public int CurrentLevel = 0; 
+    public int CurrentMaxLevel = 5; 
 }
 
 public class PlayerData : MonoBehaviour
 {
     public static PlayerData Instance { get; private set; }    
    
-    public event Action OnCurrentLevelChanged;  
+    public event Action OnCurrentMaxLevelChanged;  
    
     [SerializeField] private Data data;
 
@@ -35,14 +35,14 @@ public class PlayerData : MonoBehaviour
 
     private void Start()
     {
-        //if (YG2.saves.YandexServerData != null && YG2.saves.YandexServerData != data)           
-        //{
-        //   LoadPlayerData();
-        //}
-        //else
-        //{
-             InitFirstTimePlayingData();
-        //}
+        if (YG2.saves.YandexServerData != null && YG2.saves.YandexServerData != data)
+        {
+            LoadPlayerData();
+        }
+        else
+        {
+            InitFirstTimePlayingData();
+        }
     }
 
     private void InitFirstTimePlayingData()
@@ -53,35 +53,35 @@ public class PlayerData : MonoBehaviour
 
     private void LoadPlayerData()
     {
-        //this.data = YG2.saves.YandexServerData;
+        this.data = YG2.saves.YandexServerData;
     }
     private void SavePlayerDataToYandex()
     {
-        //YG2.saves.YandexServerData = this.data;
-        //YG2.SaveProgress();
+        YG2.saves.YandexServerData = this.data;
+        YG2.SaveProgress();
     }
 
     #region Get
-    public int GetCurrentLevel() => data.CurrentLevel;
+    public int GetCurrentMaxLevel() => data.CurrentMaxLevel;
 
     #endregion
 
     #region Set
    
-    public void SetCurrentLevel(int value)
+    public void SetCurrentMaxLevel(int value)
     {
-        var temp = data.CurrentLevel;
-        data.CurrentLevel = value;
+        var temp = data.CurrentMaxLevel;
+        data.CurrentMaxLevel = value;
        
-        if (data.CurrentLevel < 0)
+        if (data.CurrentMaxLevel < 0)
         {
-            data.CurrentLevel = temp;
+            data.CurrentMaxLevel = temp;
         }
         else
         {
             SavePlayerDataToYandex();
 
-            OnCurrentLevelChanged?.Invoke();
+            OnCurrentMaxLevelChanged?.Invoke();
         }           
         
     }

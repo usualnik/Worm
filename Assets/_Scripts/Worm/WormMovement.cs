@@ -5,6 +5,8 @@ using UnityEngine.UI;
 public class WormMovement : MonoBehaviour
 {
     public event Action<Vector3> OnMove;
+   
+
     public event Action<Vector3[]> OnWormPosChanged;
 
     [Header("Movement + Falling")]
@@ -56,17 +58,21 @@ public class WormMovement : MonoBehaviour
         _wormBody.OnBodyNotGrounded += WormBody_OnBodyNotGrounded;
         UndoManager.Instance.OnUndoAction += UndoManager_OnUndoAction;
         WinConditionManager.Instance.OnWin += WinConditionManager_OnWin;
+        GameManager.Instance.OnRestart += GameManager_OnRestart;
 
 
         SetupMobileInputButtons();
 
-    }   
+    }
+
+
 
     private void OnDestroy()
     {
         _wormBody.OnBodyNotGrounded -= WormBody_OnBodyNotGrounded;
         UndoManager.Instance.OnUndoAction -= UndoManager_OnUndoAction;
         WinConditionManager.Instance.OnWin -= WinConditionManager_OnWin;
+        GameManager.Instance.OnRestart -= GameManager_OnRestart;
 
 
         if (_upInputButton != null)
@@ -80,9 +86,20 @@ public class WormMovement : MonoBehaviour
 
     }
 
+    private void GameManager_OnRestart()
+    {
+        ResetWormPos();
+    }
+
     private void WinConditionManager_OnWin()
     {
+        ResetWormPos();
+    }
+
+    private void ResetWormPos()
+    {
         transform.position = _wormStartPosition.position;
+
     }
 
 
@@ -309,6 +326,8 @@ public class WormMovement : MonoBehaviour
             OnWormPosChanged?.Invoke(wormPos);
             OnMove?.Invoke(moveDir);
         }
+       
+        
     }
 
     private bool CanMove(Vector3 moveDir)

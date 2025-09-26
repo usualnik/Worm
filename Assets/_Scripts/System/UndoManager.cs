@@ -131,6 +131,16 @@ public class UndoManager : MonoBehaviour
     private void ClearStack()
     {
         _actionStack.Clear();
+    } 
+    public void PopAllActionsFromStack()
+    {
+        while (_actionStack.Count > 0)
+        {
+            DoAction action = _actionStack.Pop();
+            OnUndoAction?.Invoke(action);
+        }
+
+        ClearStack();
     }
 
     private bool CanUndo() => !GameManager.Instance.IsPaused;

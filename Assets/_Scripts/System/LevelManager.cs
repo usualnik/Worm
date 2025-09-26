@@ -16,6 +16,8 @@ public class LevelManager : MonoBehaviour
     private Tilemap _currentObjectTileMap;
     private Tilemap _currentReferenceTileMap;
 
+    private const int UNLOCKED_LEVELS_AMOUNT = 5;
+
 
     private void Awake()
     {
@@ -35,7 +37,7 @@ public class LevelManager : MonoBehaviour
             levelButton.OnLevelClick += LevelButton_OnLevelClick;
         }
 
-        _currentLevel = PlayerData.Instance.GetCurrentLevel();
+        _currentLevel = PlayerData.Instance.GetCurrentMaxLevel();
 
         _levels[_currentLevel].SetActive(true);
         ChangeCurrentTilemaps();
@@ -66,13 +68,21 @@ public class LevelManager : MonoBehaviour
         _levels[_currentLevel].SetActive(false);
         _currentLevel++;
 
-        PlayerData.Instance.SetCurrentLevel(_currentLevel);
+        if (_currentLevel >= PlayerData.Instance.GetCurrentMaxLevel())
+            UnlockNewLevels();
+      
 
         _levels[_currentLevel].SetActive(true);
 
         ChangeCurrentTilemaps();
 
         OnLevelChanged?.Invoke(_currentObjectTileMap, _currentReferenceTileMap);
+    }
+
+    private void UnlockNewLevels()
+    {
+        PlayerData.Instance.SetCurrentMaxLevel(PlayerData.Instance.GetCurrentMaxLevel() 
+            + UNLOCKED_LEVELS_AMOUNT);
     }
 
     private void ChangeCurrentTilemaps()
@@ -89,7 +99,7 @@ public class LevelManager : MonoBehaviour
         _levels[_currentLevel].SetActive(false);
         _currentLevel = levelIndex;
 
-        PlayerData.Instance.SetCurrentLevel(_currentLevel);
+        //PlayerData.Instance.SetCurrentLevel(_currentLevel);
 
         _levels[_currentLevel].SetActive(true);
 
@@ -104,7 +114,7 @@ public class LevelManager : MonoBehaviour
 
         _levels[_currentLevel].SetActive(false);       
 
-        PlayerData.Instance.SetCurrentLevel(_currentLevel);
+        //PlayerData.Instance.SetCurrentLevel(_currentLevel);
 
         _levels[_currentLevel].SetActive(true);
 

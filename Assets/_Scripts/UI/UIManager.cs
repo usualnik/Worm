@@ -1,4 +1,5 @@
 using UnityEngine;
+using YG;
 
 public class UIManager : MonoBehaviour
 {
@@ -11,7 +12,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _pausePanel;
 
     [Header("SYSTEM")]
-    [SerializeField] private DestroyTile _destroyTile;   
+    [SerializeField] private DestroyTile _destroyTile;
+
+ 
 
    
     private void Start()
@@ -52,7 +55,9 @@ public class UIManager : MonoBehaviour
     private void DestroyTile_OnDeathTileDestroyed()
     {
         AudioManager.Instance.Play("Loss");
-        _youLosePanel.SetActive(true);        
+        _youLosePanel.SetActive(true);
+        
+       
     }
 
     private void WinConditionManager_OnWin()

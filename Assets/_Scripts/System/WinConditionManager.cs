@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using YG;
 
 public class WinConditionManager : MonoBehaviour
 {
@@ -102,6 +103,9 @@ public class WinConditionManager : MonoBehaviour
         }
 
         AudioManager.Instance.Play("Win");
+
+        YG2.InterstitialAdvShow();
+
         OnWin?.Invoke();
 
     }
