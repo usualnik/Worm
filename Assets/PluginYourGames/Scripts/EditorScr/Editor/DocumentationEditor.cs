@@ -7,9 +7,9 @@ namespace YG.EditorScr
     public class DocumentationEditor : Editor
     {
 #if RU_YG2
-        [MenuItem("Tools/YG2/Помощь/Документация", false, 3)]
+        [MenuItem("Tools/YG2/Помощь/Документация")]
 #else
-        [MenuItem("Tools/YG2/Help/Documentation", false, 3)]
+        [MenuItem("Tools/YG2/Help/Documentation")]
 #endif
         public static void DocMenuItem()
         {
@@ -24,26 +24,26 @@ namespace YG.EditorScr
         }
 
 #if RU_YG2
-        [MenuItem("Tools/YG2/Помощь/" + Langs.community, false, 4)]
+        [MenuItem("Tools/YG2/Помощь/Чат")]
 #else
-        [MenuItem("Tools/YG2/Help/" + Langs.community, false, 4)]
+        [MenuItem("Tools/YG2/Help/Chat")]
 #endif
-        public static void HelpMenuItem()
+        public static void ChatMenuItem()
         {
             Application.OpenURL(ServerInfo.saveInfo.chat);
         }
-        public static void HelpButton()
+        public static void ChatButton()
         {
-            if (GUILayout.Button(Langs.community, YGEditorStyles.button))
+            if (GUILayout.Button(Langs.helpChat, YGEditorStyles.button))
             {
                 Application.OpenURL(ServerInfo.saveInfo.chat);
             }
         }
 
 #if RU_YG2
-        [MenuItem("Tools/YG2/Помощь/Видео", false, 5)]
+        [MenuItem("Tools/YG2/Помощь/Видео")]
 #else
-        [MenuItem("Tools/YG2/Help/Video", false, 5)]
+        [MenuItem("Tools/YG2/Help/Video")]
 #endif
         public static void VideoMenuItem()
         {

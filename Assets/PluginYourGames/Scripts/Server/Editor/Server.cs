@@ -1,6 +1,4 @@
-﻿using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -23,12 +21,13 @@ namespace YG.EditorScr
 
         private static int loadCount;
 
-        static Server()
+        static Server() => InitializeOnLoad();
+        private static void InitializeOnLoad()
         {
             EditorApplication.delayCall += () =>
             {
-                if (PluginPrefs.GetInt(InfoYG.FIRST_STARTUP_KEY) != 0 &&
-                    SessionState.GetBool(LOAD_COMPLETE_KEY, false) == false)
+                if (PlayerPrefs.GetInt(InfoYG.FIRST_STARTUP_KEY) != 0 &&
+                SessionState.GetBool(LOAD_COMPLETE_KEY, false) == false)
                 {
                     LoadServerInfo();
                 }
@@ -52,20 +51,20 @@ namespace YG.EditorScr
 
                     if (testUrl == "")
                     {
-                        fileContent = await ReadFileFromURL(PluginPrefs.GetString(URL_KEY, STANDART_URL));
+                        fileContent = await ReadFileFromURL(PlayerPrefs.GetString(URL_KEY, STANDART_URL));
 
                         if (fileContent == null)
                         {
-                            PluginPrefs.SetString(URL_KEY, STANDART_URL);
+                            PlayerPrefs.SetString(URL_KEY, STANDART_URL);
                             fileContent = await ReadFileFromURL(STANDART_URL);
                         }
                         else
                         {
                             ServerJson cloud = JsonUtility.FromJson<ServerJson>(fileContent);
 
-                            if (cloud.redirection != string.Empty && cloud.redirection != PluginPrefs.GetString(URL_KEY))
+                            if (cloud.redirection != string.Empty && cloud.redirection != PlayerPrefs.GetString(URL_KEY))
                             {
-                                PluginPrefs.SetString(URL_KEY, cloud.redirection);
+                                PlayerPrefs.SetString(URL_KEY, cloud.redirection);
                                 LoadServerInfo(true);
                                 return;
                             }
@@ -73,25 +72,14 @@ namespace YG.EditorScr
                     }
                     else
                     {
-                        fileContent = await ReadFileFromURL(PluginPrefs.GetString(URL_KEY, testUrl));
+                        fileContent = await ReadFileFromURL(PlayerPrefs.GetString(URL_KEY, testUrl));
                         ServerJson cloud = JsonUtility.FromJson<ServerJson>(fileContent);
                     }
 
-                    if (!string.IsNullOrEmpty(fileContent))
-                    {
-                        File.WriteAllText(InfoYG.FILE_SERVER_INFO, fileContent);
-                        ServerInfo.Read();
-                        AssetDatabase.SaveAssets();
-                        AssetDatabase.Refresh();
-                    }
-                    else
-                    {
-#if RU_YG2
-                        Debug.LogError($"Информация для {InfoYG.NAME_PLUGIN} не была загружена из-за отсутствия Интернета или неверного URL-адреса.");
-#else
-                        Debug.LogError($"The information for the {InfoYG.NAME_PLUGIN} was not uploaded due to a lack of Internet or an incorrect URL.");
-#endif
-                    }
+                    File.WriteAllText(InfoYG.FILE_SERVER_INFO, fileContent);
+                    ServerInfo.Read();
+                    AssetDatabase.SaveAssets();
+                    AssetDatabase.Refresh();
                 }
             }
             catch (Exception ex)
@@ -103,8 +91,6 @@ namespace YG.EditorScr
                 await Task.Delay(100);
                 SessionState.SetBool(LOAD_COMPLETE_KEY, true);
                 ServerInfo.DoActionLoadServerInfo();
-
-                NotificationUpdateWindow.OpenWindowIfExistUpdate();
             }
         }
 
@@ -133,7 +119,8 @@ namespace YG.EditorScr
 
         public static void DeletePrefs()
         {
-            PluginPrefs.DeleteAll();
+            PlayerPrefs.DeleteKey(URL_KEY);
+            PlayerPrefs.DeleteKey(InfoYG.FIRST_STARTUP_KEY);
             SessionState.SetBool(LOAD_COMPLETE_KEY, false);
         }
     }

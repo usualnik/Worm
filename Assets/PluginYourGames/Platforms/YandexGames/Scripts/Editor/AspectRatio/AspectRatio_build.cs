@@ -13,12 +13,6 @@ namespace YG.EditorScr.BuildModify
                 textCopy = textCopy.Replace("___ASPECT_RATIO___", aspectRatio);
 
                 styleFile += $"\n\n\n{textCopy}";
-
-                if (infoYG.Templates.disableForMobile)
-                {
-                    string textCopy2 = ManualFileTextCopy($"{InfoYG.CORE_FOLDER_YG2}/Platforms/YandexGames/Scripts/Editor/AspectRatio/AspectRatioOnMobile.css");
-                    styleFile += $"\n\n{textCopy2}";
-                }
             }
         }
     }

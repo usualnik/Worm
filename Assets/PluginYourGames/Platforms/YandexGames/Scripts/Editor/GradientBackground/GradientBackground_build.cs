@@ -27,29 +27,20 @@ namespace YG.EditorScr.BuildModify
 
             if (infoYG.Templates.fixedAspectRatio && infoYG.Templates.fillBackground)
             {
-                if (infoYG.Templates.imageBackground)
+                string textCopy = ManualFileTextCopy(pathCSS);
+
+                textCopy = textCopy.Replace("___CLASS___", "body");
+
+                textCopy = textCopy.Replace("color1", ConvertToRGBA(infoYG.Templates.gradientBackgroundByAspectRatio.color1));
+                textCopy = textCopy.Replace("color2", ConvertToRGBA(infoYG.Templates.gradientBackgroundByAspectRatio.color2));
+
+                if (infoYG.Templates.gradientBackgroundByAspectRatio.radial == false)
                 {
-                    string imageName = infoYG.Templates.imageName;
-                    string line = $"document.body.style.background = \"url('Images/{imageName}') center / cover no-repeat\";";
-                    indexFile = indexFile.Replace("// Fill Background [Build Modify]", line);
+                    textCopy = textCopy.Replace("radial-gradient", "linear-gradient");
+                    textCopy = textCopy.Replace("circle", $"{infoYG.Templates.gradientBackgroundByAspectRatio.angleInclination}deg");
                 }
-                else
-                {
-                    string textCopy = ManualFileTextCopy(pathCSS);
 
-                    textCopy = textCopy.Replace("___CLASS___", "body");
-
-                    textCopy = textCopy.Replace("color1", ConvertToRGBA(infoYG.Templates.gradientBackgroundByAspectRatio.color1));
-                    textCopy = textCopy.Replace("color2", ConvertToRGBA(infoYG.Templates.gradientBackgroundByAspectRatio.color2));
-
-                    if (infoYG.Templates.gradientBackgroundByAspectRatio.radial == false)
-                    {
-                        textCopy = textCopy.Replace("radial-gradient", "linear-gradient");
-                        textCopy = textCopy.Replace("circle", $"{infoYG.Templates.gradientBackgroundByAspectRatio.angleInclination}deg");
-                    }
-
-                    styleFile += $"\n\n\n{textCopy}";
-                }
+                styleFile += $"\n\n\n{textCopy}";
             }
         }
     }
