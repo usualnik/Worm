@@ -24,7 +24,7 @@ namespace YG.EditorScr
         private List<SerializedProperty> moduleIterators = new List<SerializedProperty>();
         private Texture2D[] moduleTextures = new Texture2D[0];
 
-        [MenuItem("Tools/YG2/" + Langs.settings, false, 0)]
+        [MenuItem("Tools/YG2/" + Langs.settings)]
         public static void ShowWindow()
         {
             InfoYGEditorWindow window = (InfoYGEditorWindow)GetWindow(typeof(InfoYGEditorWindow));
@@ -48,7 +48,6 @@ namespace YG.EditorScr
             YGEditorStyles.ReinitializeStyles();
 
             ServerInfo.onLoadServerInfo += OnLoadServerInfo;
-            ModuleQueue.onModuleLoaded += OnLoadServerInfo;
             EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
             ModifyBuild.onModifyComplete += Serialize;
         }
@@ -56,24 +55,21 @@ namespace YG.EditorScr
         private void OnDisable()
         {
             ServerInfo.onLoadServerInfo -= OnLoadServerInfo;
-            ModuleQueue.onModuleLoaded -= OnLoadServerInfo;
             EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
             ModifyBuild.onModifyComplete -= Serialize;
         }
-
         private void OnPlayModeStateChanged(PlayModeStateChange state) => Serialize();
-        private void OnLoadServerInfo() => versionUpdates = VersionUpdatesLabel();
 
         private void Serialize()
         {
-            OnLoadServerInfo();
+            versionUpdates = VersionUpdatesLabel();
 
             CreateIcon(InfoYG.PATCH_PC_ICON_YG2, out iconPluginYG2);
             CreateIcon(Path.Combine(InfoYG.PATCH_PC_ICONS, "Settings.png"), out iconSettings);
             CreateIcon(Path.Combine(InfoYG.PATCH_PC_ICONS, "Debugging.png"), out iconDebugging);
             CreateIcon(Path.Combine(InfoYG.PATCH_PC_ICONS, "ImageLoad.png"), out iconTemplate);
             CreateIcon(Path.Combine(InfoYG.PATCH_PC_ICONS, "Platform.png"), out iconConnect);
-            CreateIcon(PlatformSettingsEditor.GetIconCurrentPlatformPath(PlatformSettings.currentPlatformBaseName), out iconPlatform);
+            CreateIcon(PlatformSettingsEditor.GetIconCurrentPlatformPach(PlatformSettings.currentPlatformBaseName), out iconPlatform);
 
             string[] modules = Directory.GetDirectories(InfoYG.PATCH_PC_MODULES);
             for (int i = 0; i < modules.Length; i++)
@@ -178,7 +174,7 @@ namespace YG.EditorScr
 
             GUILayout.BeginHorizontal();
             DocumentationEditor.DocButton();
-            DocumentationEditor.HelpButton();
+            DocumentationEditor.ChatButton();
             DocumentationEditor.VideoButton();
             GUILayout.EndHorizontal();
             GUILayout.Space(2);
@@ -235,12 +231,10 @@ namespace YG.EditorScr
                 GUI.matrix = originalMatrix;
                 GUILayout.Space(8);
 
-                if (iconPlatform)
-                {
-                    Rect textureLastRect = GUILayoutUtility.GetRect(40, 40, GUILayout.ExpandWidth(false));
-                    GUI.DrawTexture(textureLastRect, iconPlatform);
-                    GUILayout.Space(10);
-                }
+
+                Rect textureLastRect = GUILayoutUtility.GetRect(40, 40, GUILayout.ExpandWidth(false));
+                GUI.DrawTexture(textureLastRect, iconPlatform);
+                GUILayout.Space(10);
             }
             else
             {
@@ -321,7 +315,7 @@ namespace YG.EditorScr
 
             if (lastPlatform != currentPlatform)
             {
-                InfoYG.SetPlatform(currentPlatform);
+                InfoYG.CleanPlatforms(currentPlatform);
 
                 if (currentPlatform == "NullPlatform")
                 {
@@ -445,6 +439,11 @@ namespace YG.EditorScr
 
             if (EditorUtils.IsMouseOverWindow(this))
                 Repaint();
+        }
+
+        private void OnLoadServerInfo()
+        {
+            versionUpdates = VersionUpdatesLabel();
         }
 
         private int VersionUpdatesLabel()

@@ -1,22 +1,21 @@
-﻿#if UNITY_EDITOR
-using System;
+﻿using System;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
-using UnityEditor.Build;
 
 namespace YG.Insides
 {
     [Serializable]
     public partial class ProjectSettings
     {
-        public bool autoPauseGame = true;
+#if UNITY_EDITOR
         public bool selectWebGLTemplate = true;
         public bool runInBackground = false;
         public WebGLExceptionSupport enableExceptions = WebGLExceptionSupport.FullWithoutStacktrace;
         public WebGLCompressionFormat compressionFormat = WebGLCompressionFormat.Brotli;
         public bool decompressionFallback;
         public bool autoGraphicsAPI = true;
-        public ManagedStrippingLevel managedStrippingLevel = ManagedStrippingLevel.Minimal;
+        public bool minimalCodeCompression = true;
         public bool dataCaching = true;
         public ColorSpace colorSpace = ColorSpace.Gamma;
         public bool archivingBuild = true;
@@ -25,9 +24,6 @@ namespace YG.Insides
         public void ApplySettings()
         {
             PlatformToggles toggles = YG2.infoYG.platformToggles;
-
-            if (toggles.autoPauseGame)
-                YG2.infoYG.Basic.autoPauseGame = autoPauseGame;
 
             if (toggles.runInBackground)
                 PlayerSettings.runInBackground = runInBackground;
@@ -48,8 +44,8 @@ namespace YG.Insides
                     PlayerSettings.SetUseDefaultGraphicsAPIs(EditorUserBuildSettings.activeBuildTarget, autoGraphicsAPI);
             }
 
-            if (toggles.managedStrippingLevel)
-                SetManagedStrippingLevel(managedStrippingLevel);
+            if (toggles.minimalCodeCompression)
+                SafeSetManagedStrippingLevel();
 
             if (toggles.dataCaching)
                 PlayerSettings.WebGL.dataCaching = dataCaching;
@@ -67,15 +63,27 @@ namespace YG.Insides
             AssetDatabase.SaveAssets();
         }
 
-        private static void SetManagedStrippingLevel(ManagedStrippingLevel strippingLevel)
+        private static void SafeSetManagedStrippingLevel()
         {
-            NamedBuildTarget buildTarget = NamedBuildTarget.FromBuildTargetGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
+            BuildTargetGroup targetGroup = EditorUserBuildSettings.selectedBuildTargetGroup;
 
-            if (buildTarget == NamedBuildTarget.Unknown)
+            if (targetGroup == BuildTargetGroup.Unknown)
                 return;
 
-            PlayerSettings.SetManagedStrippingLevel(buildTarget, strippingLevel);
+            var managedStrippingLevelEnum = typeof(PlayerSettings).Assembly.GetType("UnityEditor.ManagedStrippingLevel");
+            var minimalLevelValue = Enum.Parse(managedStrippingLevelEnum, "Minimal");
+
+            MethodInfo setStrippingLevelMethod = typeof(PlayerSettings).GetMethod(
+                "SetManagedStrippingLevel",
+                BindingFlags.Public | BindingFlags.Static,
+                null,
+                new Type[] { typeof(BuildTargetGroup), managedStrippingLevelEnum },
+                null
+            );
+
+            if (setStrippingLevelMethod != null)
+                setStrippingLevelMethod.Invoke(null, new object[] { targetGroup, minimalLevelValue });
         }
+#endif
     }
 }
-#endif
