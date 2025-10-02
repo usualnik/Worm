@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
 
         if (_restartsCount % 3 == 0 )
         {
-            YG2.InterstitialAdvShow();
+           YG2.InterstitialAdvShow();
         }
     }
 }
