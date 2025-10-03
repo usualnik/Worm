@@ -11,6 +11,10 @@ public class WormMovement : MonoBehaviour
 
     [Header("Movement + Falling")]
     [SerializeField] private Transform _wormStartPosition;
+    [SerializeField] private Transform _wormHeadStartPosition;
+    [SerializeField] private Transform _wormBodyStartPosition;
+    [SerializeField] private Transform _wormTailStartPosition;
+
     [SerializeField] private float _movementSpeed = 1.0f;
     [SerializeField] private float _fallingSpeed = 0.5f;
     [SerializeField] private float _moveCooldownTime = 0.5f;
@@ -49,7 +53,7 @@ public class WormMovement : MonoBehaviour
 
     private void Awake()
     {
-        transform.position = _wormStartPosition.position;
+       // ResetWormPos();
     }
 
     private void Start()
@@ -97,8 +101,11 @@ public class WormMovement : MonoBehaviour
     }
 
     private void ResetWormPos()
-    {
+    {        
         transform.position = _wormStartPosition.position;
+        _wormBody.GetBodyParts()[0].transform.position = _wormHeadStartPosition.position;
+        _wormBody.GetBodyParts()[1].transform.position = _wormBodyStartPosition.position;
+        _wormBody.GetBodyParts()[2].transform.position = _wormTailStartPosition.position;
 
     }
 

@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public event Action OnPause;
     public event Action OnRestart;
+    
     public static GameManager Instance { get; private set; }
     public bool IsPaused { get; private set; }
 
@@ -27,16 +28,36 @@ public class GameManager : MonoBehaviour
     {
         pausedButton.OnPauseButtonClicked += PausedButton_OnPauseButtonClicked;
         _tileDestroyer.OnDeathTileDestroyed += TileDestroyer_OnDeathTileDestroyed;
+        TutorialButton.OnAnyTutorialButtonClicked += TutorialButton_OnAnyTutorialButtonClicked;
+        UIManager.Instance.OnTutorialEnded += UIManager_OnTutorialEnded;
     }
 
- 
+  
     private void OnDestroy()
     {
         pausedButton.OnPauseButtonClicked -= PausedButton_OnPauseButtonClicked;
         _tileDestroyer.OnDeathTileDestroyed -= TileDestroyer_OnDeathTileDestroyed;
+        TutorialButton.OnAnyTutorialButtonClicked -= TutorialButton_OnAnyTutorialButtonClicked;
+        UIManager.Instance.OnTutorialEnded -= UIManager_OnTutorialEnded;
+
 
 
     }
+
+    private void UIManager_OnTutorialEnded()
+    {
+        //PauseGame();
+    }
+
+    private void TutorialButton_OnAnyTutorialButtonClicked()
+    {
+       // PauseGame();
+    }
+    private void PausedButton_OnPauseButtonClicked()
+    {
+        PauseGame();
+    }
+
 
     private void TileDestroyer_OnDeathTileDestroyed()
     {
@@ -46,8 +67,8 @@ public class GameManager : MonoBehaviour
             YG2.InterstitialAdvShow();
         }
     }
-
-    private void PausedButton_OnPauseButtonClicked()
+    
+    private void PauseGame()
     {
         if (!IsPaused)
         {
@@ -56,7 +77,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            IsPaused = false;      
+            IsPaused = false;
             OnPause?.Invoke();
         }
     }
