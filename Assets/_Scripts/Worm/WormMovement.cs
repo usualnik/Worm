@@ -106,6 +106,7 @@ public class WormMovement : MonoBehaviour
         _wormBody.GetBodyParts()[0].transform.position = _wormHeadStartPosition.position;
         _wormBody.GetBodyParts()[1].transform.position = _wormBodyStartPosition.position;
         _wormBody.GetBodyParts()[2].transform.position = _wormTailStartPosition.position;
+        _previousMovementDir = Vector3.right;
 
     }
 

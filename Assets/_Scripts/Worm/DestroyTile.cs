@@ -6,6 +6,7 @@ public class DestroyTile : MonoBehaviour
 {
     public event Action<Vector3Int> OnTileDestroyed;
     public event Action OnDeathTileDestroyed;
+    private Vector3Int _currentDestroyedTilePos = new Vector3Int(0,0,0);
 
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -19,10 +20,15 @@ public class DestroyTile : MonoBehaviour
                 Vector3Int cellPosition = tilemap.WorldToCell(contactPoint);
 
                 AudioManager.Instance.Play("DestroyTile");
-                // Удаляем тайл
-                tilemap.SetTile(cellPosition, null);                
 
-                OnTileDestroyed?.Invoke(cellPosition);
+                // Удаляем тайл
+                if (_currentDestroyedTilePos != cellPosition)
+                {
+                    tilemap.SetTile(cellPosition, null);
+                    _currentDestroyedTilePos = cellPosition;
+                    OnTileDestroyed?.Invoke(cellPosition);
+                }
+
             }
         }
 

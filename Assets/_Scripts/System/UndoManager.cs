@@ -56,8 +56,7 @@ public class UndoManager : MonoBehaviour
     }
 
     private void Start()
-    {
-        //_wormMovement.OnWormPosChanged += WormMovement_OnWormPosChanged;
+    {      
         _destroyTile.OnTileDestroyed += DestroyTile_OnTileDestroyed;
         LevelManager.Instance.OnLevelChanged += LevelManager_OnLevelChanged;
 
@@ -88,30 +87,23 @@ public class UndoManager : MonoBehaviour
         PushActionToStack(action);
     }
 
-    //private void WormMovement_OnWormPosChanged(Vector3[] positions)
-    //{
-    //    DoAction action = new DoAction(DoAction.ActionType.WormMove, positions);
-    //    PushActionToStack(action);
-    //}
-
     private void PushActionToStack(DoAction action)
     {
+        Debug.Log("ACTION PUSHED " + action.GetTilePosVector()); 
         _actionStack.Push(action);
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Z) && CanUndo())
-        {
-            
+        {            
             PopActionFromStack();
             //Add cooldown?
         }
     }
 
     private void PopActionFromStack()
-    {
-        Debug.Log("Undo pressed");
+    {        
 
         if (_actionStack.Count > 0)
         {
