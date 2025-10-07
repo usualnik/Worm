@@ -53,7 +53,7 @@ public class UIManager : MonoBehaviour
         TutorialButton.OnAnyTutorialButtonClicked += TutorialButton_OnAnyTutorialButtonClicked;
 
 
-        _chooseLevelPanel.SetActive(true);
+        ShowChooseLevelPanel();
     }
 
   
@@ -107,6 +107,12 @@ public class UIManager : MonoBehaviour
         _youLosePanel.SetActive(true);
         
        
+    }
+
+    public void ShowChooseLevelPanel()
+    {
+        _gamePlayUiPanel.SetActive(GameManager.Instance.IsPaused);
+        _chooseLevelPanel.SetActive(true);
     }
 
     private void Update()

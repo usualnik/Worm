@@ -95,7 +95,7 @@ public class UndoManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z) && CanUndo())
+        if (Input.GetKeyDown(KeyCode.R) && CanUndo())
         {            
             PopActionFromStack();
             //Add cooldown?

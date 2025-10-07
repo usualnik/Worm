@@ -11,12 +11,15 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] private LevelButton[] _levelButtons;
 
+    [SerializeField]
     private int _currentLevel = 0;
 
     private Tilemap _currentObjectTileMap;
     private Tilemap _currentReferenceTileMap;
 
     private const int UNLOCKED_LEVELS_AMOUNT = 5;
+    //private const int MAX_LEVELS_COUN = 25;
+    private const float DELAY_BETWEEN_LOAD_LEVEL = 2.0f;
 
 
     private void Awake()
@@ -37,7 +40,7 @@ public class LevelManager : MonoBehaviour
             levelButton.OnLevelClick += LevelButton_OnLevelClick;
         }
 
-        _currentLevel = PlayerData.Instance.GetCurrentMaxLevel();
+        //_currentLevel = PlayerData.Instance.GetCurrentMaxLevel();
 
         _levels[_currentLevel].SetActive(true);
         ChangeCurrentTilemaps();
@@ -70,13 +73,17 @@ public class LevelManager : MonoBehaviour
 
         if (_currentLevel >= PlayerData.Instance.GetCurrentMaxLevel())
             UnlockNewLevels();
-      
 
-        _levels[_currentLevel].SetActive(true);
+        Invoke(nameof(Load), DELAY_BETWEEN_LOAD_LEVEL);
 
         ChangeCurrentTilemaps();
 
         OnLevelChanged?.Invoke(_currentObjectTileMap, _currentReferenceTileMap);
+    }
+
+    private void Load()
+    {
+        _levels[_currentLevel].SetActive(true);
     }
 
     private void UnlockNewLevels()
