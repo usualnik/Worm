@@ -51,6 +51,8 @@ public class WormMovement : MonoBehaviour
 
     private const float OPPOSITE_DOT_PRODUCT = -1;
 
+    private const float DELAY_BETWEEN_RESTART_POS = 3.0f;
+
     private void Awake()
     {
        // ResetWormPos();
@@ -97,7 +99,7 @@ public class WormMovement : MonoBehaviour
 
     private void WinConditionManager_OnWin()
     {
-        ResetWormPos();
+        Invoke(nameof(ResetWormPos),DELAY_BETWEEN_RESTART_POS);       
     }
 
     private void ResetWormPos()

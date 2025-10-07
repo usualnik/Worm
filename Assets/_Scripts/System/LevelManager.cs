@@ -19,7 +19,7 @@ public class LevelManager : MonoBehaviour
 
     private const int UNLOCKED_LEVELS_AMOUNT = 5;
     //private const int MAX_LEVELS_COUN = 25;
-    private const float DELAY_BETWEEN_LOAD_LEVEL = 2.0f;
+    private const float DELAY_BETWEEN_LOAD_LEVEL = 3.0f;
 
 
     private void Awake()
@@ -63,7 +63,7 @@ public class LevelManager : MonoBehaviour
 
     private void WinConditionManager_OnWin()
     {
-        LoadNextLevel();
+        Invoke(nameof(LoadNextLevel), DELAY_BETWEEN_LOAD_LEVEL);     
     }
 
     private void LoadNextLevel()
@@ -74,17 +74,13 @@ public class LevelManager : MonoBehaviour
         if (_currentLevel >= PlayerData.Instance.GetCurrentMaxLevel())
             UnlockNewLevels();
 
-        Invoke(nameof(Load), DELAY_BETWEEN_LOAD_LEVEL);
+        _levels[_currentLevel].SetActive(true);
 
         ChangeCurrentTilemaps();
 
         OnLevelChanged?.Invoke(_currentObjectTileMap, _currentReferenceTileMap);
     }
-
-    private void Load()
-    {
-        _levels[_currentLevel].SetActive(true);
-    }
+   
 
     private void UnlockNewLevels()
     {
