@@ -35,14 +35,14 @@ public class PlayerData : MonoBehaviour
 
     private void Start()
     {
-        //if (YG2.saves.YandexServerData != null && YG2.saves.YandexServerData != data)
-        //{
-        //    LoadPlayerData();
-        //}
-        //else
-        //{
-        //    InitFirstTimePlayingData();
-        //}
+        if (YG2.saves.YandexServerData != null && YG2.saves.YandexServerData != data)
+        {
+            LoadPlayerData();
+        }
+        else
+        {
+            InitFirstTimePlayingData();
+        }
     }
 
     private void InitFirstTimePlayingData()

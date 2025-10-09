@@ -51,12 +51,13 @@ public class UIManager : MonoBehaviour
         LevelManager.Instance.OnLevelChanged += LevelManager_OnLevelChanged;
         GameManager.Instance.OnPause +=  GameManager_OnPauseButtonClicked;
         TutorialButton.OnAnyTutorialButtonClicked += TutorialButton_OnAnyTutorialButtonClicked;
+        GameManager.Instance.OnRestart += GameManager_OnRestart;
 
 
         ShowChooseLevelPanel();
     }
 
-  
+
     private void OnDestroy()
     {
        // WinConditionManager.Instance.OnWin -= WinConditionManager_OnWin;
@@ -64,9 +65,15 @@ public class UIManager : MonoBehaviour
         LevelManager.Instance.OnLevelChanged -= LevelManager_OnLevelChanged;
         GameManager.Instance.OnPause -=  GameManager_OnPauseButtonClicked;
         TutorialButton.OnAnyTutorialButtonClicked -= TutorialButton_OnAnyTutorialButtonClicked;
+        GameManager.Instance.OnRestart -= GameManager_OnRestart;
+
 
     }
 
+    private void GameManager_OnRestart()
+    {
+        _youLosePanel.SetActive(false);
+    }
     private void TutorialButton_OnAnyTutorialButtonClicked()
     {
 

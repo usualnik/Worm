@@ -71,14 +71,28 @@ public class LevelManager : MonoBehaviour
         _levels[_currentLevel].SetActive(false);
         _currentLevel++;
 
-        if (_currentLevel >= PlayerData.Instance.GetCurrentMaxLevel())
-            UnlockNewLevels();
+        if (_currentLevel <= _levels.Length)
+        {
+            if (_currentLevel >= PlayerData.Instance.GetCurrentMaxLevel())
+                UnlockNewLevels();
 
-        _levels[_currentLevel].SetActive(true);
+            _levels[_currentLevel].SetActive(true);
 
-        ChangeCurrentTilemaps();
+            ChangeCurrentTilemaps();
 
-        OnLevelChanged?.Invoke(_currentObjectTileMap, _currentReferenceTileMap);
+            OnLevelChanged?.Invoke(_currentObjectTileMap, _currentReferenceTileMap);
+        }
+        else
+        {        
+            //restart game if above max level
+            _levels[0].SetActive(true);
+            _currentLevel = 0;
+
+            ChangeCurrentTilemaps();
+
+            OnLevelChanged?.Invoke(_currentObjectTileMap, _currentReferenceTileMap);
+        }
+       
     }
    
 

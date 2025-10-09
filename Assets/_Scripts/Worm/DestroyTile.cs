@@ -37,13 +37,7 @@ public class DestroyTile : MonoBehaviour
 
             if (tilemap != null)
             {
-                Vector3 contactPoint = collision.ClosestPoint(transform.position);
-                Vector3Int cellPosition = tilemap.WorldToCell(contactPoint);
-
-                AudioManager.Instance.Play("DestroyTile");
-
-                // Удаляем тайл
-                tilemap.SetTile(cellPosition, null);
+                AudioManager.Instance.Play("DestroyTile");               
 
                 OnDeathTileDestroyed?.Invoke();
                
