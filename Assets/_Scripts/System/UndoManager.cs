@@ -120,7 +120,7 @@ public class UndoManager : MonoBehaviour
             Debug.Log("Nothing to undo, stack is empty");
     }
 
-    private void ClearStack()
+    public void ClearStack()
     {
         _actionStack.Clear();
     } 

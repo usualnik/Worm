@@ -68,6 +68,8 @@ public class LevelManager : MonoBehaviour
 
     private void LoadNextLevel()
     {
+        UndoManager.Instance.PopAllActionsFromStack();
+
         _levels[_currentLevel].SetActive(false);
         _currentLevel++;
 
@@ -91,8 +93,8 @@ public class LevelManager : MonoBehaviour
             ChangeCurrentTilemaps();
 
             OnLevelChanged?.Invoke(_currentObjectTileMap, _currentReferenceTileMap);
-        }
-       
+        }        
+
     }
    
 
@@ -113,30 +115,32 @@ public class LevelManager : MonoBehaviour
 
     private void LoadLevel(int levelIndex)
     {
-        _levels[_currentLevel].SetActive(false);
-        _currentLevel = levelIndex;
 
-        //PlayerData.Instance.SetCurrentLevel(_currentLevel);
+        _levels[_currentLevel].SetActive(false);
+        _currentLevel = levelIndex;       
 
         _levels[_currentLevel].SetActive(true);
+
+        UndoManager.Instance.PopAllActionsFromStack();
 
         ChangeCurrentTilemaps();
 
         OnLevelChanged?.Invoke(_currentObjectTileMap, _currentReferenceTileMap);
+       
     }
 
     public void RestartLevel()
-    {
-        //OnlevelRestart
+    {       
 
-        _levels[_currentLevel].SetActive(false);       
-
-        //PlayerData.Instance.SetCurrentLevel(_currentLevel);
-
+        _levels[_currentLevel].SetActive(false);     
+              
         _levels[_currentLevel].SetActive(true);
+
+        UndoManager.Instance.PopAllActionsFromStack();
 
         ChangeCurrentTilemaps();
 
         OnLevelChanged?.Invoke(_currentObjectTileMap, _currentReferenceTileMap);
+
     }
 }

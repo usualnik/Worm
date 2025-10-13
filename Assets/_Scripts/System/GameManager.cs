@@ -95,12 +95,12 @@ public class GameManager : MonoBehaviour
         _restartsCount++;
 
         AudioManager.Instance.Play("Restart");
-        UndoManager.Instance.PopAllActionsFromStack();
-        OnRestart?.Invoke();
+        OnRestart?.Invoke();       
 
         if (_restartsCount % 3 == 0 )
         {
            YG2.InterstitialAdvShow();
         }
     }
+ 
 }
