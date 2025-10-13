@@ -71,7 +71,7 @@ public class LevelManager : MonoBehaviour
         _levels[_currentLevel].SetActive(false);
         _currentLevel++;
 
-        if (_currentLevel <= _levels.Length)
+        if (_currentLevel <= _levels.Length - 1)
         {
             if (_currentLevel >= PlayerData.Instance.GetCurrentMaxLevel())
                 UnlockNewLevels();

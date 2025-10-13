@@ -9,7 +9,7 @@ public class UIManager : MonoBehaviour
     public event Action OnTutorialEnded;
 
     [Header("UI PANELS")]
-    //[SerializeField] private GameObject _youWinPanel;
+    [SerializeField] private GameObject _youWinPanel;
     [SerializeField] private GameObject _youLosePanel;
     [SerializeField] private GameObject _chooseLevelPanel;
     [SerializeField] private GameObject _mobileInputPanel;
@@ -52,11 +52,12 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.OnPause +=  GameManager_OnPauseButtonClicked;
         TutorialButton.OnAnyTutorialButtonClicked += TutorialButton_OnAnyTutorialButtonClicked;
         GameManager.Instance.OnRestart += GameManager_OnRestart;
+        WinConditionManager.Instance.OnWin += WinConditionManager_OnWin;
+       
 
 
         ShowChooseLevelPanel();
     }
-
 
     private void OnDestroy()
     {
@@ -66,9 +67,18 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.OnPause -=  GameManager_OnPauseButtonClicked;
         TutorialButton.OnAnyTutorialButtonClicked -= TutorialButton_OnAnyTutorialButtonClicked;
         GameManager.Instance.OnRestart -= GameManager_OnRestart;
+        WinConditionManager.Instance.OnWin -= WinConditionManager_OnWin;
+
 
 
     }
+
+
+    private void WinConditionManager_OnWin()
+    {
+        _youWinPanel.SetActive(true);
+    }
+
 
     private void GameManager_OnRestart()
     {
@@ -102,6 +112,7 @@ public class UIManager : MonoBehaviour
     private void LevelManager_OnLevelChanged(UnityEngine.Tilemaps.Tilemap arg1, 
         UnityEngine.Tilemaps.Tilemap arg2)
     {
+        _youWinPanel.SetActive(false);
         _chooseLevelPanel.SetActive(false);
         _gamePlayUiPanel.SetActive(true);
         

@@ -10,6 +10,10 @@ public class DestroyTile : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        if (GameManager.Instance.IsGameOver)
+            return;
+
+
         if (collision.CompareTag("Object"))
         {
             Tilemap tilemap = collision.GetComponent<Tilemap>();
@@ -31,18 +35,20 @@ public class DestroyTile : MonoBehaviour
             }
         }
 
+
         if (collision.CompareTag("PlayerLoseTile"))
         {
             Tilemap tilemap = collision.GetComponent<Tilemap>();
 
             if (tilemap != null)
             {
-                AudioManager.Instance.Play("DestroyTile");               
-
+                AudioManager.Instance.Play("DestroyTile");
                 OnDeathTileDestroyed?.Invoke();
-               
+
             }
         }
+
+
 
     }
 }

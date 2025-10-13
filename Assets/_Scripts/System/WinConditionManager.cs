@@ -122,4 +122,13 @@ public class WinConditionManager : MonoBehaviour
 
         return objEnumerator.Current - refEnumerator.Current;
     }
+
+    public void WinLevel()
+    {
+        AudioManager.Instance.Play("Win");
+
+        YG2.InterstitialAdvShow();
+
+        OnWin?.Invoke();
+    }
 }

@@ -57,7 +57,7 @@ public class UndoManager : MonoBehaviour
 
     private void Start()
     {      
-        _destroyTile.OnTileDestroyed += DestroyTile_OnTileDestroyed;
+        _destroyTile.OnTileDestroyed += DestroyTile_OnTileDestroyed;        
         LevelManager.Instance.OnLevelChanged += LevelManager_OnLevelChanged;
 
         if (_undoButton != null)
@@ -66,14 +66,14 @@ public class UndoManager : MonoBehaviour
         }
     }
 
+    
 
     private void OnDestroy()
     {
        // _wormMovement.OnWormPosChanged -= WormMovement_OnWormPosChanged;
         _destroyTile.OnTileDestroyed -= DestroyTile_OnTileDestroyed;
-        LevelManager.Instance.OnLevelChanged -= LevelManager_OnLevelChanged;
-
-    }
+        LevelManager.Instance.OnLevelChanged -= LevelManager_OnLevelChanged;        
+    } 
 
     private void LevelManager_OnLevelChanged(UnityEngine.Tilemaps.Tilemap arg1, UnityEngine.Tilemaps.Tilemap arg2)
     {

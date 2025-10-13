@@ -21,17 +21,18 @@ public class LevelButton : MonoBehaviour
     private void Start()
     {
         _levelButton.onClick.AddListener(Click);
+        
+        
+        UnlockButton();
+    } 
 
-
-        if (_levelIndex <= PlayerData.Instance.GetCurrentMaxLevel() - 1)
-        {
-            _isLevelUnloked = true;
-            _lockIcon.SetActive(false);
-        }
-    }
     private void OnDestroy()
     {
-        _levelButton.onClick.RemoveListener(Click);
+        _levelButton.onClick.RemoveListener(Click);        
+    }
+    private void OnEnable()
+    {
+        UnlockButton();
     }
 
     private void Click()
@@ -40,6 +41,15 @@ public class LevelButton : MonoBehaviour
         {
             OnLevelClick?.Invoke(_levelIndex);
             OnAnyLevelChosen?.Invoke();
+        }
+    }
+
+    private void UnlockButton()
+    {
+        if (_levelIndex <= PlayerData.Instance.GetCurrentMaxLevel() - 1)
+        {
+            _isLevelUnloked = true;
+            _lockIcon.SetActive(false);
         }
     }
 
