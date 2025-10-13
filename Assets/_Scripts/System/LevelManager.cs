@@ -42,8 +42,8 @@ public class LevelManager : MonoBehaviour
 
         //_currentLevel = PlayerData.Instance.GetCurrentMaxLevel();
 
-        _levels[_currentLevel].SetActive(true);
-        ChangeCurrentTilemaps();
+        //_levels[_currentLevel].SetActive(true);
+        //ChangeCurrentTilemaps();
     }
    
     private void OnDestroy()
@@ -115,13 +115,13 @@ public class LevelManager : MonoBehaviour
 
     private void LoadLevel(int levelIndex)
     {
+        UndoManager.Instance.PopAllActionsFromStack();
 
         _levels[_currentLevel].SetActive(false);
         _currentLevel = levelIndex;       
 
         _levels[_currentLevel].SetActive(true);
 
-        UndoManager.Instance.PopAllActionsFromStack();
 
         ChangeCurrentTilemaps();
 
@@ -131,16 +131,17 @@ public class LevelManager : MonoBehaviour
 
     public void RestartLevel()
     {       
+        UndoManager.Instance.PopAllActionsFromStack();
 
         _levels[_currentLevel].SetActive(false);     
               
         _levels[_currentLevel].SetActive(true);
 
-        UndoManager.Instance.PopAllActionsFromStack();
 
         ChangeCurrentTilemaps();
 
         OnLevelChanged?.Invoke(_currentObjectTileMap, _currentReferenceTileMap);
 
     }
+       
 }
