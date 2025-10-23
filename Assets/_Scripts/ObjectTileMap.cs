@@ -4,6 +4,7 @@ using UnityEngine.Tilemaps;
 public class ObjectTileMap : MonoBehaviour
 {
     [SerializeField] private TileBase _objectTile;
+    [SerializeField] protected DestroyTile _tileDestroyer;
 
     private Tilemap _objectTileMap;
 
@@ -16,9 +17,12 @@ public class ObjectTileMap : MonoBehaviour
     {
         UndoManager.Instance.OnUndoAction += UndoManager_OnUndoAction;
     }
+
+
     private void OnDestroy()
     {
         UndoManager.Instance.OnUndoAction -= UndoManager_OnUndoAction;
+
 
     }
 
@@ -30,4 +34,7 @@ public class ObjectTileMap : MonoBehaviour
             _objectTileMap.SetTile(action.GetTilePosVector(), _objectTile );
         }
     }
+
+   
+
 }

@@ -4,14 +4,9 @@ public class MainMenuCamAnimations : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
 
-    private void OnEnable()
+    private void Start()
     {
-        LevelButton.OnAnyLevelChosen += LevelButton_OnAnyLevelChosen;
-    }
-    private void OnDisable()
-    {
-        LevelButton.OnAnyLevelChosen -= LevelButton_OnAnyLevelChosen;
-
+        LevelButton_OnAnyLevelChosen();
     }
 
     private void LevelButton_OnAnyLevelChosen()

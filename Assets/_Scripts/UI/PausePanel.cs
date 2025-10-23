@@ -13,11 +13,13 @@ public class PausePanel : MonoBehaviour
 
     private void Start()
     {
-        pauseButton.OnPauseButtonClicked += PauseButton_OnPauseButtonClicked;
+        //pauseButton.OnPauseButtonClicked += PauseButton_OnPauseButtonClicked;
+        GameManager.Instance.OnPause += PauseButton_OnPauseButtonClicked;
     }
     private void OnDestroy()
     {
-        pauseButton.OnPauseButtonClicked -= PauseButton_OnPauseButtonClicked;
+        // pauseButton.OnPauseButtonClicked -= PauseButton_OnPauseButtonClicked;
+        GameManager.Instance.OnPause -= PauseButton_OnPauseButtonClicked;
 
     }
 

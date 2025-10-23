@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     public event Action OnRestart;
     
     public static GameManager Instance { get; private set; }
-    public bool IsPaused { get; private set; }
+    public bool IsPaused { get; private set; } = false;
     public bool IsGameOver { get; private set; }
 
 
@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
         else
             Debug.Log("More than one instance of gamemanager");
     }
+
     private void Start()
     {
         pausedButton.OnPauseButtonClicked += PausedButton_OnPauseButtonClicked;
@@ -80,11 +81,13 @@ public class GameManager : MonoBehaviour
         {
             IsPaused = true;
             OnPause?.Invoke();
+
         }
         else
         {
             IsPaused = false;
             OnPause?.Invoke();
+
         }
     }
 

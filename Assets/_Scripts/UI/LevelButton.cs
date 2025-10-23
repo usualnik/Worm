@@ -46,7 +46,7 @@ public class LevelButton : MonoBehaviour
 
     private void UnlockButton()
     {
-        if (_levelIndex <= PlayerData.Instance.GetCurrentMaxLevel() - 1)
+        if (_levelIndex <= PlayerData.Instance.GetCurrentLevel() - 1)
         {
             _isLevelUnloked = true;
             _lockIcon.SetActive(false);

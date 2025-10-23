@@ -38,7 +38,7 @@ public class UndoManager : MonoBehaviour
 
     [SerializeField] private WormMovement _wormMovement;
     [SerializeField] private DestroyTile _destroyTile;
-    [SerializeField] private Button _undoButton;
+   // [SerializeField] private Button _undoButton;
 
     private bool _undoPressed;
     private Stack<DoAction> _actionStack = new Stack<DoAction>();
@@ -58,12 +58,12 @@ public class UndoManager : MonoBehaviour
     private void Start()
     {      
         _destroyTile.OnTileDestroyed += DestroyTile_OnTileDestroyed;        
-        LevelManager.Instance.OnLevelChanged += LevelManager_OnLevelChanged;
+        //MenuLoadLevelManager.Instance.OnLevelChanged += LevelManager_OnLevelChanged;
 
-        if (_undoButton != null)
-        {
-            _undoButton.onClick.AddListener(() => PopActionFromStack());
-        }
+        //if (_undoButton != null)
+        //{
+        //    _undoButton.onClick.AddListener(() => PopActionFromStack());
+        //}
     }
 
     
@@ -72,7 +72,7 @@ public class UndoManager : MonoBehaviour
     {
        // _wormMovement.OnWormPosChanged -= WormMovement_OnWormPosChanged;
         _destroyTile.OnTileDestroyed -= DestroyTile_OnTileDestroyed;
-        LevelManager.Instance.OnLevelChanged -= LevelManager_OnLevelChanged;        
+       // MenuLoadLevelManager.Instance.OnLevelChanged -= LevelManager_OnLevelChanged;        
     } 
 
     private void LevelManager_OnLevelChanged(UnityEngine.Tilemaps.Tilemap arg1, UnityEngine.Tilemaps.Tilemap arg2)
@@ -95,11 +95,11 @@ public class UndoManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R) && CanUndo())
-        {            
-            PopActionFromStack();
-            //Add cooldown?
-        }
+        //if (Input.GetKeyDown(KeyCode.R) && CanUndo())
+        //{            
+        //    PopActionFromStack();
+        //    //Add cooldown?
+        //}
     }
 
     private void PopActionFromStack()

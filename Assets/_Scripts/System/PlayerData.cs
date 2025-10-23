@@ -4,8 +4,8 @@ using YG;
 
 [System.Serializable]
 public class Data
-{   
-    public int CurrentMaxLevel = 5; 
+{
+    public int CurrentMaxLevel = 3;
 }
 
 public class PlayerData : MonoBehaviour
@@ -62,7 +62,7 @@ public class PlayerData : MonoBehaviour
     }
 
     #region Get
-    public int GetCurrentMaxLevel() => data.CurrentMaxLevel;
+    public int GetCurrentLevel() => data.CurrentMaxLevel;
 
     #endregion
 

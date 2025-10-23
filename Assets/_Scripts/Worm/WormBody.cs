@@ -9,7 +9,7 @@ public class WormBody : MonoBehaviour
     [SerializeField] private int _bodyPartGroundedCounter;
 
     private WormMovement _wormMovement;
-    private const float DISTANCE_BETWEEN_BODY_PARTS = 0.1f;
+    private const float DISTANCE_BETWEEN_BODY_PARTS = 0.01f;
 
     private Vector3 _prevHeadPos;
     private Vector3 _prevBodyPos;

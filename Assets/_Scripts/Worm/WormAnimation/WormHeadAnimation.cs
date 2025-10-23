@@ -15,14 +15,14 @@ public class WormHeadAnimation : MonoBehaviour
 
     private void Start()
     {
-        _tiledestroyer.OnTileDestroyed += Tiledestroyer_OnTileDestroyed;
+        _tiledestroyer.OnObjectDestroyed += Tiledestroyer_OnTileDestroyed;
     }
     private void OnDestroy()
     {
-        _tiledestroyer.OnTileDestroyed -= Tiledestroyer_OnTileDestroyed;
+        _tiledestroyer.OnObjectDestroyed -= Tiledestroyer_OnTileDestroyed;
     }
 
-    private void Tiledestroyer_OnTileDestroyed(Vector3Int obj)
+    private void Tiledestroyer_OnTileDestroyed(GameObject gameObject)
     {
         _animator.SetBool("IsBiting", true);
     }
@@ -32,4 +32,6 @@ public class WormHeadAnimation : MonoBehaviour
         _animator.SetBool("IsBiting", false);
 
     }
+
+
 }

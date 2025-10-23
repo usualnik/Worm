@@ -5,13 +5,13 @@ using YG;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager Instance {  get; private set; }
+    public static UIManager Instance { get; private set; }
     public event Action OnTutorialEnded;
 
     [Header("UI PANELS")]
     [SerializeField] private GameObject _youWinPanel;
     [SerializeField] private GameObject _youLosePanel;
-    [SerializeField] private GameObject _chooseLevelPanel;
+    //[SerializeField] private GameObject _chooseLevelPanel;
     [SerializeField] private GameObject _mobileInputPanel;
     [SerializeField] private GameObject _gamePlayUiPanel;
     [SerializeField] private GameObject _pausePanel;
@@ -29,7 +29,7 @@ public class UIManager : MonoBehaviour
     [Header("SYSTEM")]
     [SerializeField] private DestroyTile _destroyTile;
 
- 
+
     private bool _tutorialStarted = false;
     private int _tutorialCount = 0;
 
@@ -46,25 +46,28 @@ public class UIManager : MonoBehaviour
     }
     private void Start()
     {
-       // WinConditionManager.Instance.OnWin += WinConditionManager_OnWin;
+        // WinConditionManager.Instance.OnWin += WinConditionManager_OnWin;
         _destroyTile.OnDeathTileDestroyed += DestroyTile_OnDeathTileDestroyed;
-        LevelManager.Instance.OnLevelChanged += LevelManager_OnLevelChanged;
-        GameManager.Instance.OnPause +=  GameManager_OnPauseButtonClicked;
+       // MenuLoadLevelManager.Instance.OnLevelChanged += LevelManager_OnLevelChanged;
+        GameManager.Instance.OnPause += GameManager_OnPauseButtonClicked;
         TutorialButton.OnAnyTutorialButtonClicked += TutorialButton_OnAnyTutorialButtonClicked;
         GameManager.Instance.OnRestart += GameManager_OnRestart;
         WinConditionManager.Instance.OnWin += WinConditionManager_OnWin;
-       
+
 
 
         ShowChooseLevelPanel();
+
+        _mobileInputPanel.SetActive(Application.isMobilePlatform);
+
     }
 
     private void OnDestroy()
     {
-       // WinConditionManager.Instance.OnWin -= WinConditionManager_OnWin;
+        // WinConditionManager.Instance.OnWin -= WinConditionManager_OnWin;
         _destroyTile.OnDeathTileDestroyed -= DestroyTile_OnDeathTileDestroyed;
-        LevelManager.Instance.OnLevelChanged -= LevelManager_OnLevelChanged;
-        GameManager.Instance.OnPause -=  GameManager_OnPauseButtonClicked;
+        //MenuLoadLevelManager.Instance.OnLevelChanged -= LevelManager_OnLevelChanged;
+        GameManager.Instance.OnPause -= GameManager_OnPauseButtonClicked;
         TutorialButton.OnAnyTutorialButtonClicked -= TutorialButton_OnAnyTutorialButtonClicked;
         GameManager.Instance.OnRestart -= GameManager_OnRestart;
         WinConditionManager.Instance.OnWin -= WinConditionManager_OnWin;
@@ -87,9 +90,9 @@ public class UIManager : MonoBehaviour
     private void TutorialButton_OnAnyTutorialButtonClicked()
     {
 
-       _tutorialStarted = true;
+        _tutorialStarted = true;
 
-       _mainTutorial.SetActive(true);
+        _mainTutorial.SetActive(true);
 
         if (YG2.envir.language == "ru")
         {
@@ -98,25 +101,25 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-           _enTutorial.SetActive(true);
-           _enTutorialImages[0].SetActive(true);
+            _enTutorial.SetActive(true);
+            _enTutorialImages[0].SetActive(true);
         }
     }
 
 
-    private void  GameManager_OnPauseButtonClicked()
+    private void GameManager_OnPauseButtonClicked()
     {
         _pausePanel.SetActive(GameManager.Instance.IsPaused);
     }
+
 
     private void LevelManager_OnLevelChanged(UnityEngine.Tilemaps.Tilemap arg1, 
         UnityEngine.Tilemaps.Tilemap arg2)
     {
         _youWinPanel.SetActive(false);
-        _chooseLevelPanel.SetActive(false);
+        //_chooseLevelPanel.SetActive(false);
         _gamePlayUiPanel.SetActive(true);
         
-        _mobileInputPanel.SetActive(Application.isMobilePlatform);
        
     }
     private void DestroyTile_OnDeathTileDestroyed()
@@ -129,8 +132,8 @@ public class UIManager : MonoBehaviour
 
     public void ShowChooseLevelPanel()
     {
-        _gamePlayUiPanel.SetActive(GameManager.Instance.IsPaused);
-        _chooseLevelPanel.SetActive(true);
+        //_gamePlayUiPanel.SetActive(GameManager.Instance.IsPaused);
+       // _chooseLevelPanel.SetActive(true);
     }
 
     private void Update()
