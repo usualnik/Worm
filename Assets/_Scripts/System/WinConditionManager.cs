@@ -94,7 +94,8 @@ public class WinConditionManager : MonoBehaviour
             }
         }
 
-        Debug.Log($"Level initialized: {_remainingObjects.Count} objects, reference: {_referencePositions.Count} positions");
+        //Debug.Log($"Level initialized: {_remainingObjects.Count} objects, reference: {_referencePositions.Count} positions");
+
     }
 
     private void OnObjectDestroyed(GameObject destroyedObject)
@@ -185,12 +186,12 @@ public class WinConditionManager : MonoBehaviour
     {
         if (_gameWon) return;
 
-        Debug.Log("=== Checking Win Condition ===");
+        //Debug.Log("=== Checking Win Condition ===");
 
         // Если количество не совпадает - точно не выиграли
         if (_remainingObjects.Count != _referencePositions.Count)
         {
-            Debug.Log($"Count mismatch: objects={_remainingObjects.Count}, reference={_referencePositions.Count}");
+           // Debug.Log($"Count mismatch: objects={_remainingObjects.Count}, reference={_referencePositions.Count}");
             return;
         }
 
@@ -202,7 +203,7 @@ public class WinConditionManager : MonoBehaviour
             {
                 Vector3Int cellPos = _refTileMap.WorldToCell(obj.transform.position);
                 currentPositions.Add(cellPos);
-                Debug.Log($"Object at cell: {cellPos}");
+               // Debug.Log($"Object at cell: {cellPos}");
             }
         }
 
@@ -211,12 +212,12 @@ public class WinConditionManager : MonoBehaviour
 
         if (shapesMatch)
         {
-            Debug.Log("WIN! Shapes match!");
+           // Debug.Log("WIN! Shapes match!");
             WinGame();
         }
         else
         {
-            Debug.Log("No win - shapes don't match");
+            //Debug.Log("No win - shapes don't match");
         }
     }
 
@@ -243,8 +244,8 @@ public class WinConditionManager : MonoBehaviour
             normalizedCurr.Add(pos - currMin);
         }
 
-        Debug.Log("Normalized reference: " + string.Join(", ", normalizedRef));
-        Debug.Log("Normalized current: " + string.Join(", ", normalizedCurr));
+        //Debug.Log("Normalized reference: " + string.Join(", ", normalizedRef));
+        //Debug.Log("Normalized current: " + string.Join(", ", normalizedCurr));
 
         // Сравниваем нормализованные формы
         return normalizedRef.SetEquals(normalizedCurr);
@@ -270,7 +271,7 @@ public class WinConditionManager : MonoBehaviour
 
         _gameWon = true;
 
-        Debug.Log("WIN! Shapes match!");
+        //Debug.Log("WIN! Shapes match!");
 
         // Останавливаем все проверки
         if (_periodicCheckCoroutine != null)
@@ -292,15 +293,15 @@ public class WinConditionManager : MonoBehaviour
     {
         if (_gameWon) return;
 
-        Debug.Log("=== DEBUG POSITIONS ===");
+        //Debug.Log("=== DEBUG POSITIONS ===");
 
-        Debug.Log("Reference positions:");
+       // Debug.Log("Reference positions:");
         foreach (var pos in _referencePositions)
         {
             Debug.Log($"  {pos}");
         }
 
-        Debug.Log("Current object positions:");
+        //Debug.Log("Current object positions:");
         foreach (var obj in _remainingObjects)
         {
             if (obj != null)
@@ -321,4 +322,8 @@ public class WinConditionManager : MonoBehaviour
             DebugCheckPositions();
         }
     }
+
+    public int GetRemainingObjectsCount() => _remainingObjects.Count;
+    public int GetReferenceObjectsCount() => _referencePositions.Count;
+
 }

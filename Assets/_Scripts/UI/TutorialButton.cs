@@ -27,8 +27,10 @@ public class TutorialButton : MonoBehaviour
         _tutorialbutton.onClick.RemoveListener(Button_OnTutorialButtonClicked);
 
     }
-    private void Button_OnTutorialButtonClicked()
+    public void Button_OnTutorialButtonClicked()
     {
         OnAnyTutorialButtonClicked?.Invoke();
     }
+
+    
 }

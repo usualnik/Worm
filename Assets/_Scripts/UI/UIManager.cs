@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using YG;
 
 public class UIManager : MonoBehaviour
@@ -33,6 +32,7 @@ public class UIManager : MonoBehaviour
     private bool _tutorialStarted = false;
     private int _tutorialCount = 0;
 
+
     private void Awake()
     {
         if (Instance == null)
@@ -53,6 +53,7 @@ public class UIManager : MonoBehaviour
         TutorialButton.OnAnyTutorialButtonClicked += TutorialButton_OnAnyTutorialButtonClicked;
         GameManager.Instance.OnRestart += GameManager_OnRestart;
         WinConditionManager.Instance.OnWin += WinConditionManager_OnWin;
+        LoseConditionManager.Instance.OnLose += LoseConditionManager_OnLose;
 
 
 
@@ -61,6 +62,8 @@ public class UIManager : MonoBehaviour
         _mobileInputPanel.SetActive(Application.isMobilePlatform);
 
     }
+
+
 
     private void OnDestroy()
     {
@@ -71,21 +74,23 @@ public class UIManager : MonoBehaviour
         TutorialButton.OnAnyTutorialButtonClicked -= TutorialButton_OnAnyTutorialButtonClicked;
         GameManager.Instance.OnRestart -= GameManager_OnRestart;
         WinConditionManager.Instance.OnWin -= WinConditionManager_OnWin;
+        LoseConditionManager.Instance.OnLose -= LoseConditionManager_OnLose;
 
 
 
     }
 
-
+    private void LoseConditionManager_OnLose()
+    {
+       _youLosePanel.SetActive(true);
+    }
     private void WinConditionManager_OnWin()
     {
         _youWinPanel.SetActive(true);
     }
-
-
     private void GameManager_OnRestart()
     {
-        _youLosePanel.SetActive(false);
+        _youLosePanel.SetActive(true);
     }
     private void TutorialButton_OnAnyTutorialButtonClicked()
     {
@@ -94,7 +99,7 @@ public class UIManager : MonoBehaviour
 
         _mainTutorial.SetActive(true);
 
-        if (YG2.envir.language == "ru")
+        if (YG2.envir.language == "ru" )
         {
             _ruTutorial.SetActive(true);
             _ruTutorialImages[0].SetActive(true);

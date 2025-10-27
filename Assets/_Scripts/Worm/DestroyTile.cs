@@ -4,8 +4,8 @@ using UnityEngine.Tilemaps;
 
 public class DestroyTile : MonoBehaviour
 {
-    public event Action<Vector3Int> OnTileDestroyed;
-    public event Action<GameObject> OnObjectDestroyed; // Новое событие
+    //public event Action<Vector3Int> OnTileDestroyed;
+    public event Action<GameObject> OnObjectDestroyed;
     public event Action OnDeathTileDestroyed;
     private Vector3Int _currentDestroyedTilePos = new Vector3Int(0, 0, 0);
 

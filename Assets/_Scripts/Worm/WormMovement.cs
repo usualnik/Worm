@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using YG;
 
 public class WormMovement : MonoBehaviour
 {
@@ -77,7 +78,6 @@ public class WormMovement : MonoBehaviour
     {
         _wormBody.OnBodyNotGrounded -= WormBody_OnBodyNotGrounded;
         UndoManager.Instance.OnUndoAction -= UndoManager_OnUndoAction;
-        //WinConditionManager.Instance.OnWin -= WinConditionManager_OnWin;
         GameManager.Instance.OnRestart -= GameManager_OnRestart;
 
 
@@ -130,7 +130,8 @@ public class WormMovement : MonoBehaviour
 
     private void Update()
     {
-        if (_isFalling)
+        //if ads do not show - we can fall, otherwise we fall trough the ground
+        if (_isFalling && !YG2.nowAdsShow)
         {
             HandleFalling();
         }

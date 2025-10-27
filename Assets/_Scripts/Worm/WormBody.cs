@@ -36,14 +36,16 @@ public class WormBody : MonoBehaviour
 
     public void BodyPartGrounded(bool isGrounded)
     {
-        if (isGrounded)
+        if (isGrounded )
         {
             _bodyPartGroundedCounter++;
+
             CheckIfAllBodyPartsGrounded();
         }
         else
         {            
             _bodyPartGroundedCounter--;
+
             CheckIfAllBodyPartsGrounded();
         }
     }

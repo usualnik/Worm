@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3830974103168708187}
   - component: {fileID: 9044322972310809537}
   - component: {fileID: 7594546449387942147}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -269,8 +269,8 @@ MonoBehaviour:
   _obstacleLayerMask:
     serializedVersion: 2
     m_Bits: 64
-  _collisionCheckDistance: 1
-  _collisionBoxSize: {x: 0.5, y: 0.5}
+  _collisionCheckDistance: 0.9
+  _collisionBoxSize: {x: 0.4, y: 0.4}
   _upInputButton: {fileID: 0}
   _leftInputButton: {fileID: 0}
   _downInputButton: {fileID: 0}
@@ -288,7 +288,7 @@ GameObject:
   - component: {fileID: 5211552360488191094}
   - component: {fileID: 8875134300599533250}
   - component: {fileID: 7540986841471062530}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -464,7 +464,7 @@ GameObject:
   - component: {fileID: 2946195091970123710}
   - component: {fileID: 937259348299196402}
   - component: {fileID: 7670419599631784475}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tail
   m_TagString: Untagged
   m_Icon: {fileID: 0}

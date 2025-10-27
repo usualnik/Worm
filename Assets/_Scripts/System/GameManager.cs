@@ -33,8 +33,10 @@ public class GameManager : MonoBehaviour
         TutorialButton.OnAnyTutorialButtonClicked += TutorialButton_OnAnyTutorialButtonClicked;
         UIManager.Instance.OnTutorialEnded += UIManager_OnTutorialEnded;
         WinConditionManager.Instance.OnWin += WinConditionManager_OnWin;
-    }    
+        LoseConditionManager.Instance.OnLose += LoseConditionManager_OnLose;
+    }
 
+    
     private void OnDestroy()
     {
         pausedButton.OnPauseButtonClicked -= PausedButton_OnPauseButtonClicked;
@@ -42,10 +44,18 @@ public class GameManager : MonoBehaviour
         TutorialButton.OnAnyTutorialButtonClicked -= TutorialButton_OnAnyTutorialButtonClicked;
         UIManager.Instance.OnTutorialEnded -= UIManager_OnTutorialEnded;
         WinConditionManager.Instance.OnWin -= WinConditionManager_OnWin;
+        LoseConditionManager.Instance.OnLose -= LoseConditionManager_OnLose;
+
+    }
+    private void LoseConditionManager_OnLose()
+    {
+        IsGameOver = true;
+        PauseGame();
     }
 
     private void WinConditionManager_OnWin()
     {
+        YG2.InterstitialAdvShow();
         IsGameOver = false;
     }
 

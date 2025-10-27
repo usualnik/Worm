@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 7933659827858972842}
   - component: {fileID: 7234826934153218843}
   - component: {fileID: 8334194364115793969}
-  - component: {fileID: 5024533790041744412}
   m_Layer: 0
   m_Name: ObjectTileMap
   m_TagString: Object
@@ -263,7 +262,7 @@ Tilemap:
   - m_RefCount: 0
     m_Data: {r: 1e-43, g: 1e-43, b: 1e-43, a: 1e-43}
   - m_RefCount: 9
-    m_Data: {r: 0.8896763, g: 0.44703984, b: 0.5890791, a: 1}
+    m_Data: {r: 0.7171805, g: 0.50030315, b: 0.54195344, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -419,19 +418,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objectTile: {fileID: 11400000, guid: a7f91d2ea9becd64c872685a840afc36, type: 2}
   _tileDestroyer: {fileID: 0}
---- !u!114 &5024533790041744412
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 701807666814494475}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65c6dc3789d55984b85e28ee627693f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fallingTilePrefab: {fileID: 8652560242147114330, guid: f0bb76bc7f5363549992d2c58003d8f1, type: 3}
 --- !u!1 &1579776649565592995
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,6 +427,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7147973364396328730}
+  - component: {fileID: 7098169807904881061}
   m_Layer: 0
   m_Name: Level
   m_TagString: Untagged
@@ -465,6 +452,19 @@ Transform:
   - {fileID: 481849117963239270}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7098169807904881061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1579776649565592995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c6dc3789d55984b85e28ee627693f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fallingTilePrefabs: []
 --- !u!1 &3937728218156490945
 GameObject:
   m_ObjectHideFlags: 0
@@ -666,7 +666,7 @@ Tilemap:
   - m_RefCount: 0
     m_Data: {r: 1e-43, g: 1e-43, b: 1e-43, a: 1e-43}
   - m_RefCount: 3
-    m_Data: {r: 0.75240576, g: 0.36241117, b: 0.3911742, a: 1}
+    m_Data: {r: 0.962501, g: 0.56687725, b: 0.61545265, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -998,7 +998,7 @@ Tilemap:
       e33: 1
   m_TileColorArray:
   - m_RefCount: 1
-    m_Data: {r: 0.87205994, g: 0.58470094, b: 0.6001257, a: 1}
+    m_Data: {r: 0.8446452, g: 0.43060514, b: 0.5030247, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}

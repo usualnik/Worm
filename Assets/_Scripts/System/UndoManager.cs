@@ -57,7 +57,7 @@ public class UndoManager : MonoBehaviour
 
     private void Start()
     {      
-        _destroyTile.OnTileDestroyed += DestroyTile_OnTileDestroyed;        
+        //_destroyTile.OnTileDestroyed += DestroyTile_OnTileDestroyed;        
         //MenuLoadLevelManager.Instance.OnLevelChanged += LevelManager_OnLevelChanged;
 
         //if (_undoButton != null)
@@ -71,7 +71,7 @@ public class UndoManager : MonoBehaviour
     private void OnDestroy()
     {
        // _wormMovement.OnWormPosChanged -= WormMovement_OnWormPosChanged;
-        _destroyTile.OnTileDestroyed -= DestroyTile_OnTileDestroyed;
+        //_destroyTile.OnTileDestroyed -= DestroyTile_OnTileDestroyed;
        // MenuLoadLevelManager.Instance.OnLevelChanged -= LevelManager_OnLevelChanged;        
     } 
 

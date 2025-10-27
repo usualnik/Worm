@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using YG;
 
 public class GameLevelLoader : MonoBehaviour
 {
@@ -18,7 +19,8 @@ public class GameLevelLoader : MonoBehaviour
     }
     private void WinConditionManager_OnWin()
     {
-        LoadNextLevel();
+       
+        Invoke(nameof(LoadNextLevel), 2f);       
     }
 
     private void LoadNextLevel()
@@ -43,6 +45,8 @@ public class GameLevelLoader : MonoBehaviour
 
     public void RestartScene()
     {
+        YG2.InterstitialAdvShow();
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
