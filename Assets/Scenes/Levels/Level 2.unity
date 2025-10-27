@@ -4644,11 +4644,6 @@ RelativeJoint2D:
   m_AutoConfigureOffset: 1
   m_LinearOffset: {x: -1, y: 0}
   m_AngularOffset: 0
---- !u!1 &1348747315 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5022720544508482369, guid: bf19eec5ce1c26d45b9b36df67d73f04, type: 3}
-  m_PrefabInstance: {fileID: 709969539355924985}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1358055848
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4954,11 +4949,6 @@ RelativeJoint2D:
   m_AutoConfigureOffset: 1
   m_LinearOffset: {x: 0, y: 1}
   m_AngularOffset: 0
---- !u!1 &1422060780 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6995868251504140569, guid: bf19eec5ce1c26d45b9b36df67d73f04, type: 3}
-  m_PrefabInstance: {fileID: 709969539355924985}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1482007733 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8877338121187814684, guid: bf19eec5ce1c26d45b9b36df67d73f04, type: 3}
@@ -6256,6 +6246,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2821318425084961926, guid: bf19eec5ce1c26d45b9b36df67d73f04, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 49.99951
+      objectReference: {fileID: 0}
+    - target: {fileID: 2842123987110316681, guid: bf19eec5ce1c26d45b9b36df67d73f04, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -49.99951
+      objectReference: {fileID: 0}
     - target: {fileID: 3365191523998375712, guid: bf19eec5ce1c26d45b9b36df67d73f04, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -7229,7 +7227,7 @@ PrefabInstance:
     - target: {fileID: 123751748454220090, guid: 9f04b2c44fdcce34a889a1fa1dc49b8f, type: 3}
       propertyPath: '_enTutorialImages.Array.data[4]'
       value: 
-      objectReference: {fileID: 1422060780}
+      objectReference: {fileID: 0}
     - target: {fileID: 123751748454220090, guid: 9f04b2c44fdcce34a889a1fa1dc49b8f, type: 3}
       propertyPath: '_ruTutorialImages.Array.data[0]'
       value: 
@@ -7249,7 +7247,7 @@ PrefabInstance:
     - target: {fileID: 123751748454220090, guid: 9f04b2c44fdcce34a889a1fa1dc49b8f, type: 3}
       propertyPath: '_ruTutorialImages.Array.data[4]'
       value: 
-      objectReference: {fileID: 1348747315}
+      objectReference: {fileID: 0}
     - target: {fileID: 959554914804651399, guid: 9f04b2c44fdcce34a889a1fa1dc49b8f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -7440,6 +7438,42 @@ PrefabInstance:
     - target: {fileID: 2103741384448857051, guid: 805cd077fb0c8384680a7299e522d6a9, type: 3}
       propertyPath: m_Name
       value: Main Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 6745415521976647823, guid: 805cd077fb0c8384680a7299e522d6a9, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6745415521976647823, guid: 805cd077fb0c8384680a7299e522d6a9, type: 3}
+      propertyPath: m_RefResolutionX
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 6745415521976647823, guid: 805cd077fb0c8384680a7299e522d6a9, type: 3}
+      propertyPath: m_RefResolutionY
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 7198188244475764670, guid: 805cd077fb0c8384680a7299e522d6a9, type: 3}
+      propertyPath: m_ForceIntoRT
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7198188244475764670, guid: 805cd077fb0c8384680a7299e522d6a9, type: 3}
+      propertyPath: orthographic size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7198188244475764670, guid: 805cd077fb0c8384680a7299e522d6a9, type: 3}
+      propertyPath: m_NormalizedViewPortRect.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7198188244475764670, guid: 805cd077fb0c8384680a7299e522d6a9, type: 3}
+      propertyPath: m_NormalizedViewPortRect.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7198188244475764670, guid: 805cd077fb0c8384680a7299e522d6a9, type: 3}
+      propertyPath: m_NormalizedViewPortRect.width
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7198188244475764670, guid: 805cd077fb0c8384680a7299e522d6a9, type: 3}
+      propertyPath: m_NormalizedViewPortRect.height
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
