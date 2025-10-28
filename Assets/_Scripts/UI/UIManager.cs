@@ -92,7 +92,7 @@ public class UIManager : MonoBehaviour
     {
         _youLosePanel.SetActive(true);
     }
-    private void TutorialButton_OnAnyTutorialButtonClicked()
+    public void TutorialButton_OnAnyTutorialButtonClicked()
     {
 
         _tutorialStarted = true;

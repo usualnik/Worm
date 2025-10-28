@@ -270,7 +270,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   _collisionCheckDistance: 0.9
-  _collisionBoxSize: {x: 0.4, y: 0.4}
+  _collisionBoxSize: {x: 0.3, y: 0.3}
   _upInputButton: {fileID: 0}
   _leftInputButton: {fileID: 0}
   _downInputButton: {fileID: 0}
