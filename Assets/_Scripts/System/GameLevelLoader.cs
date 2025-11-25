@@ -45,7 +45,8 @@ public class GameLevelLoader : MonoBehaviour
 
     public void RestartScene()
     {
-        YG2.InterstitialAdvShow();
+        //YG2.InterstitialAdvShow();
+        Interstitial.Instance.LoadInterstitial();
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }

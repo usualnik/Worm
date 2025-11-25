@@ -5,7 +5,7 @@ public class FallingTilePrefab : MonoBehaviour
     private bool _canFall;
     [SerializeField] private float rayDistance = 5f;
     [SerializeField] private LayerMask whatIsWorm;
-    [SerializeField] private Vector2 boxSize = new Vector2(1f, 1f); 
+    [SerializeField] private Vector2 boxSize = new Vector2(1f, 1f);
 
     private Rigidbody2D _body;
 

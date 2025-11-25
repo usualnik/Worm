@@ -1,6 +1,6 @@
 using System;
+using System.IO;
 using UnityEngine;
-using YG;
 
 [System.Serializable]
 public class Data
@@ -10,34 +10,43 @@ public class Data
 
 public class PlayerData : MonoBehaviour
 {
-    public static PlayerData Instance { get; private set; }    
-   
-    public event Action OnCurrentMaxLevelChanged;  
-   
+    public static PlayerData Instance { get; private set; }
+
+    public event Action OnCurrentMaxLevelChanged;
+
     [SerializeField] private Data data;
 
+    private string SavePath => Path.Combine(Application.persistentDataPath, "playerData.json");
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            gameObject.transform.SetParent(null, false);
+            DontDestroyOnLoad(gameObject);
+            LoadPlayerData();
         }
         else
         {
             Destroy(gameObject);
         }
-
-        DontDestroyOnLoad(gameObject);
-
     }
 
-    private void Start()
+    private void LoadPlayerData()
     {
-        if (YG2.saves.YandexServerData != null && YG2.saves.YandexServerData != data)
+        if (File.Exists(SavePath))
         {
-            LoadPlayerData();
+            try
+            {
+                string json = File.ReadAllText(SavePath);
+                data = JsonUtility.FromJson<Data>(json);
+                Debug.Log("Game data loaded");
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Load error: {e.Message}");
+                InitFirstTimePlayingData();
+            }
         }
         else
         {
@@ -45,46 +54,52 @@ public class PlayerData : MonoBehaviour
         }
     }
 
-    private void InitFirstTimePlayingData()
+    private void SavePlayerData()
     {
-        //build new data
-        data = new Data();       
+        try
+        {
+            string json = JsonUtility.ToJson(data, true);
+            File.WriteAllText(SavePath, json);
+            Debug.Log("Game data saved");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Save error: {e.Message}");
+        }
     }
 
-    private void LoadPlayerData()
+    private void InitFirstTimePlayingData()
     {
-        this.data = YG2.saves.YandexServerData;
-    }
-    private void SavePlayerDataToYandex()
-    {
-        YG2.saves.YandexServerData = this.data;
-        YG2.SaveProgress();
+        data = new Data();
+        SavePlayerData();
     }
 
     #region Get
     public int GetCurrentLevel() => data.CurrentMaxLevel;
-
     #endregion
 
     #region Set
-   
     public void SetCurrentMaxLevel(int value)
     {
         var temp = data.CurrentMaxLevel;
         data.CurrentMaxLevel = value;
-       
+
         if (data.CurrentMaxLevel < 0)
         {
             data.CurrentMaxLevel = temp;
         }
         else
         {
-            SavePlayerDataToYandex();
-
+            SavePlayerData();
             OnCurrentMaxLevelChanged?.Invoke();
-        }           
-        
+        }
     }
     #endregion
 
+    // Для отладки - посмотреть путь сохранения
+    [ContextMenu("Print Save Path")]
+    private void PrintSavePath()
+    {
+        Debug.Log($"Save path: {SavePath}");
+    }
 }

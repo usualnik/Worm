@@ -21,7 +21,7 @@ public class MainMenuTutorialHandler : MonoBehaviour
 
         _mainTutorial.SetActive(true);
 
-        if (YG2.envir.language == "ru")
+        if (LanguageManager.Instance.CurrentLanguage == "ru")
         {
             _ruTutorial.SetActive(true);
             _ruTutorialImages[0].SetActive(true);
@@ -39,14 +39,14 @@ public class MainMenuTutorialHandler : MonoBehaviour
 
         if (Input.anyKeyDown)
         {
-            if (YG2.envir.language == "ru" && _tutorialCount < _ruTutorialImages.Length - 1)
+            if (LanguageManager.Instance.CurrentLanguage == "ru" && _tutorialCount < _ruTutorialImages.Length - 1)
             {
                 _ruTutorialImages[_tutorialCount].SetActive(false);
                 _tutorialCount++;
                 _ruTutorialImages[_tutorialCount].SetActive(true);
 
             }
-            else if (YG2.envir.language == "en" && _tutorialCount < _ruTutorialImages.Length - 1)
+            else if (LanguageManager.Instance.CurrentLanguage == "en" && _tutorialCount < _ruTutorialImages.Length - 1)
             {
                 _enTutorialImages[_tutorialCount].SetActive(false);
                 _tutorialCount++;

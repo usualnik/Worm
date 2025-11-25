@@ -1563,6 +1563,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5858637697203878683, guid: 1a9d01b5b9ae5a248b0f680fc8015c5a, type: 3}
+      propertyPath: _fallingSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5858637697203878683, guid: 1a9d01b5b9ae5a248b0f680fc8015c5a, type: 3}
       propertyPath: _upInputButton
       value: 
       objectReference: {fileID: 900489016}

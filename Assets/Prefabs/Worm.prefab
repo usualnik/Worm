@@ -264,7 +264,7 @@ MonoBehaviour:
   _wormBodyStartPosition: {fileID: 0}
   _wormTailStartPosition: {fileID: 0}
   _movementSpeed: 1
-  _fallingSpeed: 0.1
+  _fallingSpeed: 3
   _moveCooldownTime: 0.25
   _obstacleLayerMask:
     serializedVersion: 2

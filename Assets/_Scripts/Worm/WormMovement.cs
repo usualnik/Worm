@@ -46,6 +46,7 @@ public class WormMovement : MonoBehaviour
     //Fall
     private Vector3 _fallMovement = Vector3.down;
     private bool _isFalling = true;
+    private bool _canFall = true;
 
     //System
     private WormBody _wormBody;
@@ -66,20 +67,22 @@ public class WormMovement : MonoBehaviour
         UndoManager.Instance.OnUndoAction += UndoManager_OnUndoAction;
        // WinConditionManager.Instance.OnWin += WinConditionManager_OnWin;
         GameManager.Instance.OnRestart += GameManager_OnRestart;
-
+        Interstitial.Instance.OnInterstitialStarted += InterstitialAd_OnInterstitialStarted;
+        Interstitial.Instance.OnInterstitialEnded += InterstitialAd_OnInterstitialEnded;
 
         SetupMobileInputButtons();
 
     }
 
-
+   
 
     private void OnDestroy()
     {
         _wormBody.OnBodyNotGrounded -= WormBody_OnBodyNotGrounded;
         UndoManager.Instance.OnUndoAction -= UndoManager_OnUndoAction;
         GameManager.Instance.OnRestart -= GameManager_OnRestart;
-
+        Interstitial.Instance.OnInterstitialStarted -= InterstitialAd_OnInterstitialStarted;
+        Interstitial.Instance.OnInterstitialEnded -= InterstitialAd_OnInterstitialEnded;
 
         if (_upInputButton != null)
             _upInputButton.onClick.RemoveAllListeners();
@@ -90,6 +93,15 @@ public class WormMovement : MonoBehaviour
         if (_rightInputButton != null)
             _rightInputButton.onClick.RemoveAllListeners();
 
+    }
+
+    private void InterstitialAd_OnInterstitialStarted()
+    {
+        _canFall = false;
+    }
+    private void InterstitialAd_OnInterstitialEnded()
+    {
+        _canFall = true;
     }
 
     private void GameManager_OnRestart()
@@ -130,20 +142,19 @@ public class WormMovement : MonoBehaviour
 
     private void Update()
     {
-        //if ads do not show - we can fall, otherwise we fall trough the ground
-        if (_isFalling && !YG2.nowAdsShow)
+        if (_isFalling && _canFall)
         {
             HandleFalling();
         }
         else
         {
             HandleMovementCooldown();
-            
+
             if (!GameManager.Instance.IsPaused)
-            {               
+            {
                 CheckForInput();
                 CheckForMobileInput();
-            }           
+            }
         }
     }
 
@@ -271,33 +282,33 @@ public class WormMovement : MonoBehaviour
     {
         if (!_canMove) return;
 
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
-        {
-            AudioManager.Instance.Play("Input");
-            TryMove(Vector2.up);
-        }
-        else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-        {
-            AudioManager.Instance.Play("Input");
+        //if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+        //{
+        //    AudioManager.Instance.Play("Input");
+        //    TryMove(Vector2.up);
+        //}
+        //else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        //{
+        //    AudioManager.Instance.Play("Input");
 
-            _wormBody.FlipHeadSprite(true);
+        //    _wormBody.FlipHeadSprite(true);
 
-            TryMove(Vector2.left);
-        }
-        else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
-        {
-            AudioManager.Instance.Play("Input");
+        //    TryMove(Vector2.left);
+        //}
+        //else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+        //{
+        //    AudioManager.Instance.Play("Input");
 
-            TryMove(Vector2.down);
-        }
-        else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-        {
-            AudioManager.Instance.Play("Input");
+        //    TryMove(Vector2.down);
+        //}
+        //else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+        //{
+        //    AudioManager.Instance.Play("Input");
 
-            _wormBody.FlipHeadSprite(false);
+        //    _wormBody.FlipHeadSprite(false);
 
-            TryMove(Vector2.right);
-        }
+        //    TryMove(Vector2.right);
+        //}
     }
 
     private void TryMove(Vector3 moveDir)
@@ -312,7 +323,7 @@ public class WormMovement : MonoBehaviour
 
     private void HandleFalling()
     {
-        transform.position += _fallMovement * _fallingSpeed;
+        transform.position += _fallMovement * _fallingSpeed * Time.deltaTime;
         _wormBody.UpdateBodyPosDuringFall();
 
         if (_wormBody.GetBodyParts()[0].GetGrounded() ||

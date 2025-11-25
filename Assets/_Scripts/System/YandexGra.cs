@@ -5,7 +5,7 @@ public class YandexGra : MonoBehaviour
 {
     void Start()
     {
-        YG2.GameReadyAPI();
+        //YG2.GameReadyAPI();
     }
 
    

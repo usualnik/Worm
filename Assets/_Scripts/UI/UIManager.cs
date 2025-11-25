@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 using YG;
 
 public class UIManager : MonoBehaviour
@@ -76,8 +78,6 @@ public class UIManager : MonoBehaviour
         WinConditionManager.Instance.OnWin -= WinConditionManager_OnWin;
         LoseConditionManager.Instance.OnLose -= LoseConditionManager_OnLose;
 
-
-
     }
 
     private void LoseConditionManager_OnLose()
@@ -99,7 +99,7 @@ public class UIManager : MonoBehaviour
 
         _mainTutorial.SetActive(true);
 
-        if (YG2.envir.language == "ru" )
+        if (LanguageManager.Instance.CurrentLanguage == "ru")
         {
             _ruTutorial.SetActive(true);
             _ruTutorialImages[0].SetActive(true);
@@ -145,16 +145,16 @@ public class UIManager : MonoBehaviour
     {
         if (!_tutorialStarted) return;
 
-        if (Input.anyKeyDown )
+        if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.wasPressedThisFrame)
         {
-            if(YG2.envir.language == "ru" && _tutorialCount < _ruTutorialImages.Length - 1)
+            if (LanguageManager.Instance.CurrentLanguage == "ru" && _tutorialCount < _ruTutorialImages.Length - 1)
             {
+                Debug.Log("Ru tutorial switch");
                 _ruTutorialImages[_tutorialCount].SetActive(false);
                 _tutorialCount++;
                 _ruTutorialImages[_tutorialCount].SetActive(true);
-
             }
-            else if(YG2.envir.language == "en" && _tutorialCount < _ruTutorialImages.Length - 1)
+            else if (LanguageManager.Instance.CurrentLanguage == "en" && _tutorialCount < _enTutorialImages.Length - 1)
             {
                 _enTutorialImages[_tutorialCount].SetActive(false);
                 _tutorialCount++;
@@ -162,11 +162,9 @@ public class UIManager : MonoBehaviour
             }
             else
             {
-              TutorialEnded();
+                TutorialEnded();
             }
-
         }
-      
     }
 
     private void TutorialEnded()

@@ -55,7 +55,9 @@ public class GameManager : MonoBehaviour
 
     private void WinConditionManager_OnWin()
     {
-        YG2.InterstitialAdvShow();
+        //YG2.InterstitialAdvShow();
+        Interstitial.Instance.LoadInterstitial();
+
         IsGameOver = false;
     }
 
@@ -81,7 +83,9 @@ public class GameManager : MonoBehaviour
         
         if (_losesCount % 2 == 0)
         {
-            YG2.InterstitialAdvShow();
+            //YG2.InterstitialAdvShow();
+            Interstitial.Instance.LoadInterstitial();
+
         }
     }
     
@@ -112,7 +116,8 @@ public class GameManager : MonoBehaviour
 
         if (_restartsCount % 3 == 0 )
         {
-           YG2.InterstitialAdvShow();
+            //YG2.InterstitialAdvShow();
+            Interstitial.Instance.LoadInterstitial();
         }
     }
  

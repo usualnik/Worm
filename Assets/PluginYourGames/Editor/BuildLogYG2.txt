@@ -1,3 +1,0 @@
-Build path: C:/Users/noteHP/Desktop/Nikita/Worm/Build
-Build number: 5
-PluginYG version: 2.005

@@ -283,7 +283,8 @@ public class WinConditionManager : MonoBehaviour
         StopAllCoroutines();
 
         AudioManager.Instance.Play("Win");
-        YG2.InterstitialAdvShow();
+        //YG2.InterstitialAdvShow();
+        Interstitial.Instance.LoadInterstitial();
         OnWin?.Invoke();
     }
 
@@ -314,14 +315,14 @@ public class WinConditionManager : MonoBehaviour
         StartCoroutine(DelayedWinCheck());
     }
 
-    private void Update()
-    {
-        // Для тестирования - нажмите P для проверки
-        if (Input.GetKeyDown(KeyCode.P) && !_gameWon)
-        {
-            DebugCheckPositions();
-        }
-    }
+    //private void Update()
+    //{
+    //    //// Для тестирования - нажмите P для проверки
+    //    //if (Input.GetKeyDown(KeyCode.P) && !_gameWon)
+    //    //{
+    //    //    DebugCheckPositions();
+    //    //}
+    //}
 
     public int GetRemainingObjectsCount() => _remainingObjects.Count;
     public int GetReferenceObjectsCount() => _referencePositions.Count;
