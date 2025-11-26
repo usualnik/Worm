@@ -20,7 +20,7 @@ public class LanguageManager : MonoBehaviour
         CurrentLanguage = GetLanguage();
     }
 
-    public string GetLanguage()
+    private string GetLanguage()
     {
         return Application.systemLanguage switch
         {
